@@ -228,8 +228,6 @@
     </div>
 </div>
 
-
-
 <script>
     var xmlContent = '<Attributes>';
     var workflowName = 'Prevailing Term Summary';
@@ -285,27 +283,38 @@
         } else {
             getDocumentAttributes(docId)
                 .then(parentAttributes => {
-                    var childIds = parentAttributes.ChildAgreementIds ? parentAttributes.ChildAgreementIds.split(', ').filter(id => id) : [];
+                    const contractNumber = parentAttributes.ContractNumber;
 
-                    if (childIds.length > 0) {
-                        // Fetch attributes for all child documents
-                        return Promise.all(childIds.map(childId => getDocumentAttributes(childId)))
-                            .then(childAttributesArray => ({ parentAttributes, childAttributesArray }));
+                    // Fetch related documents based on contract number and return the result
+                    return fetchRelatedDocuments(contractNumber)
+                        .then(relatedDocuments => {
+                            console.log('YO1-----------------------:');
+                            return { parentAttributes, relatedDocuments, contractNumber }; // Pass both parentAttributes and relatedDocuments forward
+                        });
+                })
+                .then(({ parentAttributes, relatedDocuments, contractNumber }) => {
+                    console.log('Fetched related documents:', relatedDocuments);
+
+                    // If there are child document IDs, fetch their attributes
+                    if (relatedDocuments.length > 0) {
+                        return { parentAttributes, relatedDocuments, contractNumber }; // Return both parentAttributes and relatedDocuments
                     } else {
-                        return { parentAttributes, childAttributesArray: [] };
+                        console.log('located here');
+                        return { relatedDocuments: [] };
                     }
                 })
-                .then(({ parentAttributes, childAttributesArray }) => {
-                    displayContracts(parentAttributes, childAttributesArray);
-                    displayContractDetails(parentAttributes);
-                    console.log('Contracts displayed successfully.');
-                    $('div#spinnerOverlay').hide();
-                    $('div#spinnerOverlay').hide();
-                    return { parentAttributes, childAttributesArray };
-                })
-                .then(({ parentAttributes, childAttributesArray }) => {
-                    var tableHtml = generateComparisonTable(parentAttributes, childAttributesArray);
+                .then(({ parentAttributes, relatedDocuments, contractNumber }) => {
+                    console.log('here now', relatedDocuments);
+                    var tableHtml = generateComparisonTable(relatedDocuments, contractNumber);
                     document.getElementById('comparisonTableContainer').innerHTML = tableHtml;
+
+                    displayContracts(relatedDocuments);
+                    // var contractTree = displayContracts(relatedDocuments);
+                    // document.getElementById('contractDisplay').innerHTML = contractTree;
+
+                    var contractDetails = displayContractDetails(relatedDocuments);
+                    document.getElementById('contractDetails').innerHTML = contractDetails;
+
                     $('div#spinnerOverlay').hide();
                 })
                 .catch(error => {
@@ -317,6 +326,7 @@
                         $('div#errorAPI').show();
                     }
                 });
+
         }
     });
 
@@ -367,14 +377,101 @@
                         "TerminationNoticeDate": attributes['CLM Agreement Details']?.['Termination Notice Date']?.Value || '',
                         "TerminationNoticeUnit": attributes['CLM Agreement Details']?.['Termination Notice Unit']?.Value || '',
                         "LimitationLiability": attributes['CLM Agreement Details']?.['Limitation of Liability']?.Value || '',
-                        "ContractNumber": attributes['Contract Information']?.['Contract Number']?.Value || '',
                         "Value": attributes['CLM Agreement Details']?.['Value']?.Value || '',
-                        "ChildAgreementIds": attributes['Hierarchy']?.['Child Agreement Id']?.Value.join(', ') || '',
-                        "ParentAgreementId": attributes['Hierarchy']?.['Parent Agreement Id']?.Value || ''
+                        "ContractNumber": attributes['Contract Record']?.['Contract Number']?.Value || '',
+                        "ContractIsActive": attributes['Contract Record']?.['Is Active?']?.Value || '',
+                        "ContractIsParent": attributes['Contract Record']?.['Is Parent?']?.Value || '',
                     };
 
                     console.log("Document Attributes:", documentAttributes);
                     resolve(documentAttributes);
+                }
+            });
+        });
+    }
+
+    function fetchRelatedDocuments(contractNumber) {
+        return getAllDocumentIds(contractNumber)
+            .then(relatedDocuments => {
+                // Do any additional processing if needed
+                console.log('reletedDocuments', relatedDocuments);
+                return relatedDocuments; // Return the list of related documents
+            })
+            .catch(error => {
+                console.error('Error fetching related documents:', error);
+                throw error; // Propagate the error for handling in the outer promise chain
+            });
+    }
+
+    function extractAndSortAgreementDetails(data) {
+        const result = [];
+
+        // Iterate through each item in the Items array
+        data.Result.Items.forEach(item => {
+            const clmDetails = item.AttributeGroups["CLM Agreement Details"];
+
+            // Check if CLM Agreement Details exists to avoid errors
+            if (clmDetails) {
+                // Extract specific details from CLM Agreement Details
+                const details = {
+                    Name: clmDetails.Name?.Value || 'N/A',
+                    AgreementID: clmDetails["Agreement ID"]?.Value || 'N/A',
+                    PartyName: clmDetails["Party Name"]?.Value || 'N/A',
+                    PartyID: clmDetails["Party ID"]?.Value || 'N/A',
+                    Type: clmDetails.Type?.Value || 'N/A',
+                    EffectiveDate: clmDetails["Effective Date"]?.Value || 'N/A',
+                    Value: clmDetails.Value?.Value || 'N/A',
+                    Requestor: clmDetails.Requestor?.Value || 'N/A',
+                    PaymentTerms: clmDetails["Payment Terms"]?.Value || 'N/A',
+                    PaymentDuration: clmDetails["Payment Duration"]?.Value || 'N/A',
+                    PaymentDurationUnit: clmDetails["Payment Duration Unit"]?.Value || 'N/A',
+                    PaymentLateFees: clmDetails["Payment Late Fees"]?.Value || 'N/A',
+                    LimitationOfLiability: clmDetails["Limitation of Liability"]?.Value || 'N/A',
+                    Assignable: clmDetails.Assignable?.Value || 'N/A',
+                    Indemnity: clmDetails.Indemnity?.Value || 'N/A',
+                    TerminationCause: clmDetails["Termination Cause"]?.Value || 'N/A',
+                    TerminationConvenience: clmDetails["Termination Convenience"]?.Value || 'N/A'
+                };
+
+                // Add extracted details to the result array
+                result.push(details);
+            }
+        });
+
+        // Sort by EffectiveDate (oldest to newest)
+        result.sort((a, b) => {
+            const dateA = new Date(a.EffectiveDate.slice(0, 4), a.EffectiveDate.slice(4, 6) - 1, a.EffectiveDate.slice(6, 8));
+            const dateB = new Date(b.EffectiveDate.slice(0, 4), b.EffectiveDate.slice(4, 6) - 1, b.EffectiveDate.slice(6, 8));
+            return dateA - dateB;
+        });
+
+        return result;
+    }
+
+    function getAllDocumentIds(contractNumber) {
+        // Return a single Promise
+        return new Promise(function (resolve, reject) {
+            // Define the payload with the contract number
+            const payload = {
+                "AttributeFields": [
+                    {
+                        "Group": "Contract Record",
+                        "Field": "Contract Number",
+                        "Value": contractNumber // Use the input contract number
+                    }
+                ]
+            };
+
+            console.log('payload', payload);
+
+            // Send the POST request with the payload
+            SpringCM.API.post(`/v2/${docuSignaId}/documentsearchtasks/?expand=AttributeGroups`, payload, (data) => {
+                if (data.responseText) {
+                    reject(data.responseText); // Reject the promise on error
+                } else {
+                    const refinedData = extractAndSortAgreementDetails(data);
+                    console.log('refinedData', refinedData);
+                    resolve(refinedData); // Resolve the promise on success
                 }
             });
         });
@@ -407,8 +504,17 @@
         return `${month}/${day}/${year}`;
     }
 
-    function generateComparisonTable(parentAttributes, childAttributesArray) {
-        var tableHtml = '<h2>Term Summary Table</h2>';
+    function generateComparisonTable(attributesArray, contractNumber) {
+        var tableHtml = `<h2>Term Summary Table - ${contractNumber}</h2>`;
+
+        // Check if the array has at least one item
+        if (!attributesArray || attributesArray.length === 0) {
+            return '<p>No data available.</p>';
+        }
+
+        // The parent attributes are the first item in the array
+        var parentAttributes = attributesArray[0];
+        var childAttributesArray = attributesArray.slice(1); // The rest are child attributes
 
         tableHtml += '<table>';
         tableHtml += '<tr><th>Datapoint</th><th>Parent</th>';
@@ -429,6 +535,7 @@
             // Merge child attributes keys
             allKeys = new Set([...allKeys, ...Object.keys(parsedChildAttributes)]);
         });
+        console.log('ContractNumber:', contractNumber);
 
         // List of keys to skip
         const keysToSkip = ['ParentDocID', 'ParentFolderID', 'AgreementID', 'PartyID', 'ChildAgreementIds', 'ParentAgreementId', 'Signed'];
@@ -440,7 +547,10 @@
                 return;
             }
 
+            // Get the parent value and replace 'N/A' with an empty string
             var parentValue = parsedParentAttributes[key] || '';
+            parentValue = parentValue === 'N/A' ? '' : parentValue;
+
             var childValues = [];
             var prevailingTerm = '';
 
@@ -461,6 +571,8 @@
 
             childAttributesArray.forEach(childAttributes => {
                 var childValue = (childAttributes[key] || '').toString();
+                // Replace 'N/A' with an empty string
+                childValue = childValue === 'N/A' ? '' : childValue;
 
                 // Convert to USD Currency if the key is 'Value'
                 if (key === 'Value') {
@@ -492,6 +604,9 @@
                 }
             }
 
+            // Replace 'N/A' with empty string for prevailingTerm
+            prevailingTerm = prevailingTerm === 'N/A' ? '' : prevailingTerm;
+
             if (key === 'DocumentName' || key === 'Type') {
                 prevailingTerm = '';
             }
@@ -515,14 +630,17 @@
         return tableHtml;
     }
 
-    // Function to display contracts dynamically
-    function displayContracts(parent, children) {
+    // Function to display contracts dynamically in a tree view
+    function displayContracts(attributesArray) {
         const container = document.getElementById('contractDisplay');
 
         // Clear existing content before adding new content
         container.innerHTML = '<h2>Contract Hierarchy</h2>';
 
+        var parent = attributesArray[0];
         console.log("Parent:", parent);
+
+        var children = attributesArray.slice(1); // The rest are child attributes
         console.log("Children:", children);
 
         // Create the parent contract header
@@ -530,7 +648,7 @@
         parentDiv.classList.add('contract-header');
         parentDiv.innerHTML = `
         <div>
-            <strong>${parent.DocumentName}</strong> - ${parent.Type} - ${formatDate(parent.EffectiveDate)} | <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${parent.ParentDocID}' target='_blank'>Link</a>
+            <strong>${parent.Name}</strong> - ${parent.Type} - ${formatDate(parent.EffectiveDate)} | <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${parent.ParentDocID}' target='_blank'>Link</a>
         </div>
         <div>
             ${children.length} child records
@@ -551,11 +669,11 @@
             // Set inner HTML for the child
             childDiv.innerHTML = `
             <div class="child-record-header">
-                <span><strong>${child.DocumentName}</strong> - ${child.Type}</span>
+                <span><strong>${child.Name}</strong> - ${child.Type}</span>
                 <span>${formatDate(child.EffectiveDate)}</span>
             </div>
             <div class="child-record-content">
-                <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${child.ParentDocID}' target='_blank'>Link</a>
+                <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${child.ParentDocID}' target='_blank'>Link</a>  | ${child.Requestor}
             </div>
         `;
 
@@ -579,15 +697,13 @@
 
     // Function to display high-level contract details that fills in contractDetails
     function displayContractDetails(parent) {
-        const container = document.getElementById('contractDetails');
-
         // Clear existing content before adding new content
-        container.innerHTML = `<h2>Contract Details</h2><strong>Party Name:</strong> ${parent.PartyName}<br/><strong>Account Owner:</strong>${parent.Requestor}`;
-        console.log("Parent:", parent);
+        var contractDetailsHtml = `<h2>Contract Details</h2><strong>Party Name:</strong> ${parent[0].PartyName}<br/><strong>Account Owner:</strong> ${parent[0].Requestor}`;
+        console.log("Parent:", parent[0]);
 
         // container.appendChild(childrenContainer);
 
-        return true;
+        return contractDetailsHtml;
     }
 
     // Function to use XML content
