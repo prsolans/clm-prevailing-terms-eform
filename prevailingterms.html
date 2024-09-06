@@ -1,0 +1,668 @@
+<!-- Include this in your HTML -->
+<style>
+    h2 {
+        padding-bottom: 10px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+    }
+
+    th,
+    td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    th,
+    td {
+        font-size: 14px;
+    }
+
+    /* Base styles for the button */
+    .button {
+        background-color: #007bff;
+        /* Primary color */
+        border: none;
+        /* Remove default border */
+        color: white;
+        /* Text color */
+        padding: 12px 24px;
+        /* Padding */
+        text-align: center;
+        /* Center text */
+        text-decoration: none;
+        /* Remove underline */
+        display: inline-block;
+        /* Allow margin/padding to work */
+        font-size: 16px;
+        /* Font size */
+        margin: 8px 2px;
+        /* Margin around button */
+        cursor: pointer;
+        /* Pointer cursor on hover */
+        border-radius: 8px;
+        /* Rounded corners */
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        /* Smooth transitions */
+    }
+
+    /* Hover effect */
+    .button:hover {
+        background-color: #0056b3;
+        /* Darker shade of primary color */
+        transform: translateY(-2px);
+        /* Lift effect */
+    }
+
+    /* Active effect */
+    .button:active {
+        background-color: #004494;
+        /* Even darker shade */
+        transform: translateY(0);
+        /* Reset lift effect */
+    }
+
+    /* Disabled state */
+    .button:disabled {
+        background-color: #6c757d;
+        /* Gray color */
+        cursor: not-allowed;
+        /* Not-allowed cursor */
+        opacity: 0.65;
+        /* Slightly transparent */
+        transform: none;
+        /* Remove any transform effects */
+    }
+
+    /* Optional focus effect for accessibility */
+    .button:focus {
+        outline: none;
+        /* Remove default outline */
+        box-shadow: 0 0 0 3px rgba(38, 143, 255, 0.5);
+        /* Blue outline */
+    }
+
+    /* Basic styling for the contract display */
+    .contract-container {
+        font-family: Arial, sans-serif;
+        margin: 0px;
+    }
+
+    .contract-header {
+        background-color: #e9f5e9;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .contract-header:hover {
+        background-color: #d3ebd3;
+    }
+
+    .contract-children,
+    .child-record {
+        margin-left: 20px;
+        padding: 10px 0;
+    }
+
+    .child-record {
+        border-top: 1px solid #ddd;
+    }
+
+    .record-type {
+        font-size: 0.9em;
+        color: #666;
+    }
+
+    .child-record-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .child-record-header:hover {
+        background-color: #f0f0f0;
+    }
+
+    .collapse-icon {
+        transform: rotate(90deg);
+        transition: transform 0.3s;
+    }
+
+    .expanded .collapse-icon {
+        transform: rotate(0deg);
+    }
+
+    .child-record-content {
+        display: none;
+    }
+
+    .expanded .child-record-content {
+        display: block;
+    }
+
+    /* Container to hold the two divs side by side */
+    .row-container {
+        display: flex;
+        /* Use Flexbox to arrange children side by side */
+        width: 100%;
+        /* Full width */
+        gap: 20px;
+        /* Gap between the two divs */
+        padding: 10px;
+        /* Padding around the container */
+        box-sizing: border-box;
+        /* Include padding in the total width */
+    }
+
+    /* Contract Display takes up 2/3 of the row */
+    #contractDisplay {
+        flex: 2;
+        /* Takes up 2/3 of the available space */
+        background-color: #f0f0f0;
+        /* Background color for visualization */
+        padding: 15px;
+        /* Padding inside the div */
+        border-radius: 5px;
+        /* Rounded corners */
+    }
+
+    /* Contact Details takes up 1/3 of the row */
+    #contactDetails {
+        flex: 1;
+        /* Takes up 1/3 of the available space */
+        background-color: #e0e0e0;
+        /* Background color for visualization */
+        padding: 15px;
+        /* Padding inside the div */
+        border-radius: 5px;
+        /* Rounded corners */
+    }
+</style>
+<div id="comparisonTableContainer"></div>
+<button id="generateButton" class="button">Generate Prevailing Term Sheet</button>
+    <!-- Main container to hold both contract display and contact details -->
+    <div class="row-container">
+        <!-- Contract Display (2/3 width) -->
+        <div id="contractDisplay" class="contract-container">
+            <!-- Contract display content will be dynamically added here -->
+        </div>
+
+        <!-- Contact Details (1/3 width) -->
+        <div id="contactDetails">
+            <!-- Contact details content will be added here -->
+            <h2>Contact Details</h2>
+            <p>Contact Name: John Doe</p>
+            <p>Email: johndoe@example.com</p>
+            <p>Phone: (123) 456-7890</p>
+        </div>
+    </div>
+
+
+
+<script>
+    var xmlContent = '<Attributes>';
+    var workflowName = 'Prevailing Term Summary';
+
+    function loadCss(file) {
+        var link = document.createElement('link');
+        link.href = file;
+        link.type = 'text/css';
+        link.rel = 'stylesheet';
+        document.querySelector('head').appendChild(link);
+    }
+
+    function extractURLParameter(url, name) {
+        return (RegExp(name + '=' + '(.+?)(&|$)').exec(url) || [, null])[1];
+    };
+
+    var url = document.referrer;
+
+    console.log("URL:", url);
+    var aId = decodeURIComponent(extractURLParameter(url, 'aid').replace(/\+/g, " "));
+    console.log("aId:", aId);
+    var docId = decodeURIComponent(extractURLParameter(url, 'Id').replace(/\+/g, " "));
+    console.log("docId:", docId);
+    var env = document.location.href.split("https://")[1].split('.')[0];
+    console.log("Environment:", env);
+
+    loadCss('https://ux.springcm.com/ux/releases/0.10.5/css/SpringCM.UX.min.css');
+    loadCss('https://ux.springcm.com/ux/releases/0.10.5/css/Atlas.Forms.min.css');
+    loadCss(`https://${env}.springcm.com/atlas/ThemeCss?aid=${aId}`);
+</script>
+
+<script>
+    var _scmComponentLibraryPath = 'https://ux.springcm.com/ux/releases/0.10.5/images';
+</script>
+<script src='https://ux.springcm.com/ux/releases/0.10.5/js/SpringCM.UX.min.js'></script>
+<script>
+    jqueryUX = jQuery.noConflict(true);
+</script>
+
+<script type="text/javascript">
+    var docuSignaId = "9bb5a5f6-9bd2-4956-bacc-0bdc19387c91";
+
+    $("[ScmFormControl]").bind(Atlas.Forms.SCM_FORM_AFTER_DATA_LOAD, function (e) {
+        // Hide top button group and bottom buttons
+        $('div.buttonGroup:first').hide();
+        $('div.buttonDiv').hide();
+        $('div.buttonDiv:last input')[0].value = 'Return to Document';
+
+        if (docId === '') {
+            $('div#spinnerOverlay').hide();
+            $('div#errorMissingDocID').show();
+            $('div.buttonDiv:last').show();
+        } else {
+            getDocumentAttributes(docId)
+                .then(parentAttributes => {
+                    var childIds = parentAttributes.ChildAgreementIds ? parentAttributes.ChildAgreementIds.split(', ').filter(id => id) : [];
+
+                    if (childIds.length > 0) {
+                        // Fetch attributes for all child documents
+                        return Promise.all(childIds.map(childId => getDocumentAttributes(childId)))
+                            .then(childAttributesArray => ({ parentAttributes, childAttributesArray }));
+                    } else {
+                        return { parentAttributes, childAttributesArray: [] };
+                    }
+                })
+                .then(({ parentAttributes, childAttributesArray }) => {
+                    displayContracts(parentAttributes, childAttributesArray);
+                    console.log('Contracts displayed successfully.');
+                    $('div#spinnerOverlay').hide();
+                    $('div#spinnerOverlay').hide();
+                    return { parentAttributes, childAttributesArray };
+                })
+                .then(({ parentAttributes, childAttributesArray }) => {
+                    var tableHtml = generateComparisonTable(parentAttributes, childAttributesArray);
+                    document.getElementById('comparisonTableContainer').innerHTML = tableHtml;
+                    $('div#spinnerOverlay').hide();
+                })
+                .catch(error => {
+                    console.log("Error:", error);
+                    $('div#spinnerOverlay').hide();
+                    if (error === 'No attribute data') {
+                        $('div#errorNoAttributes').show();
+                    } else {
+                        $('div#errorAPI').show();
+                    }
+                });
+        }
+    });
+
+    function getDocumentAttributes(docId) {
+        return new Promise(function (resolve, reject) {
+            SpringCM.API.get(`/v2/${docuSignaId}/documents/${docId}?expand=AttributeGroups`, function (data) {
+                if (data.responseText) reject(data.responseText);
+
+                // Assuming the object is stored in a variable called `data`
+                var parentFolderHref = data.ParentFolder.Href;
+
+                // Extract the ID after 'folders/'
+                var parentFolderId = parentFolderHref.split('/folders/')[1];
+
+                var attributes = data.AttributeGroups || {};
+                var hasCLMDocumentDetails = attributes['CLM Agreement Details'] !== undefined;
+
+                console.log("data", data);
+
+                console.log("Attributes:", attributes);
+
+                if (!hasCLMDocumentDetails) {
+                    reject('No attribute data');
+                } else {
+                    var documentAttributes = {
+                        "ParentDocID": docId,
+                        "ParentFolderID": parentFolderId,
+                        "DocumentName": attributes['CLM Agreement Details']?.['Name']?.Value || '',
+                        "Type": attributes['CLM Agreement Details']?.['Type']?.Value || '',
+                        "EffectiveDate": attributes['CLM Agreement Details']?.['Effective Date']?.Value || '',
+                        "ExpirationDate": attributes['CLM Agreement Details']?.['Expiration Date']?.Value || '',
+                        "AgreementID": attributes['CLM Agreement Details']?.['Agreement ID']?.Value || '',
+                        "PartyID": attributes['CLM Agreement Details']?.['Party ID']?.Value || '',
+                        "PartyName": attributes['CLM Agreement Details']?.['Party Name']?.Value || '',
+                        "PaymentDuration": attributes['CLM Agreement Details']?.['Payment Duration']?.Value || '',
+                        "PaymentDurationUnit": attributes['CLM Agreement Details']?.['Payment Duration Unit']?.Value || '',
+                        "PaymentLateFees": attributes['CLM Agreement Details']?.['Payment Late Fees']?.Value || '',
+                        "PaymentTerms": attributes['CLM Agreement Details']?.['Payment Terms']?.Value || '',
+                        "RenewalNoticePeriod": attributes['CLM Agreement Details']?.['Renewal Notice Period']?.Value || '',
+                        "RenewalNoticePeriodUnit": attributes['CLM Agreement Details']?.['Renewal Notice Period Unit']?.Value || '',
+                        "RenewalTerm": attributes['CLM Agreement Details']?.['Renewal Term']?.Value || '',
+                        "RenewalTermUnit": attributes['CLM Agreement Details']?.['Renewal Term Unit']?.Value || '',
+                        "Requestor": attributes['CLM Agreement Details']?.['Requestor']?.Value || '',
+                        "Signed": attributes['CLM Agreement Details']?.['Signed']?.Value || '',
+                        "TerminationCause": attributes['CLM Agreement Details']?.['Termination Cause']?.Value || '',
+                        "TerminationConvenience": attributes['CLM Agreement Details']?.['Termination Convenience']?.Value || '',
+                        "TerminationNotice": attributes['CLM Agreement Details']?.['Termination Notice']?.Value || '',
+                        "TerminationNoticeDate": attributes['CLM Agreement Details']?.['Termination Notice Date']?.Value || '',
+                        "TerminationNoticeUnit": attributes['CLM Agreement Details']?.['Termination Notice Unit']?.Value || '',
+                        "LimitationLiability": attributes['CLM Agreement Details']?.['Limitation of Liability']?.Value || '',
+                        "ContractNumber": attributes['Contract Information']?.['Contract Number']?.Value || '',
+                        "Value": attributes['CLM Agreement Details']?.['Value']?.Value || '',
+                        "ChildAgreementIds": attributes['Hierarchy']?.['Child Agreement Id']?.Value.join(', ') || '',
+                        "ParentAgreementId": attributes['Hierarchy']?.['Parent Agreement Id']?.Value || ''
+                    };
+
+                    console.log("Document Attributes:", documentAttributes);
+                    resolve(documentAttributes);
+                }
+            });
+        });
+    }
+
+    function parseAttributes(attributes) {
+        var parsedAttributes = {};
+        for (var key in attributes) {
+            if (attributes.hasOwnProperty(key)) {
+                // Assuming attributes[key] is a primitive value
+                parsedAttributes[key] = attributes[key] || '';
+            }
+        }
+        return parsedAttributes;
+    }
+
+    function formatCurrency(value) {
+        if (isNaN(value)) return '';
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return '';
+        // Extract year, month, and day from the dateString
+        var year = dateString.substring(0, 4);
+        var month = dateString.substring(4, 6);
+        var day = dateString.substring(6, 8);
+
+        // Format date as MM/DD/YYYY
+        return `${month}/${day}/${year}`;
+    }
+
+    function generateComparisonTable(parentAttributes, childAttributesArray) {
+        var tableHtml = '<h2>Term Summary Table</h2>';
+
+        tableHtml += '<table>';
+        tableHtml += '<tr><th>Datapoint</th><th>Parent</th>';
+
+        // Add column headers for each child document
+        childAttributesArray.forEach((_, index) => {
+            tableHtml += `<th>Child ${index + 1}</th>`;
+        });
+        tableHtml += '<th>Prevailing Terms</th></tr>';
+
+        // Parse parent attributes
+        var parsedParentAttributes = parseAttributes(parentAttributes);
+
+        // Get all unique keys from parent attributes and all child attributes
+        var allKeys = new Set(Object.keys(parsedParentAttributes));
+        childAttributesArray.forEach(childAttributes => {
+            var parsedChildAttributes = parseAttributes(childAttributes);
+            // Merge child attributes keys
+            allKeys = new Set([...allKeys, ...Object.keys(parsedChildAttributes)]);
+        });
+
+        // List of keys to skip
+        const keysToSkip = ['ParentDocID', 'ParentFolderID', 'AgreementID', 'PartyID', 'ChildAgreementIds', 'ParentAgreementId', 'Signed'];
+
+        // Generate table rows for parent and each child
+        allKeys.forEach(key => {
+            // Skip if the key is in the keysToSkip array
+            if (keysToSkip.includes(key)) {
+                return;
+            }
+
+            var parentValue = parsedParentAttributes[key] || '';
+            var childValues = [];
+            var prevailingTerm = '';
+
+            // Initialize sum for 'Value' key
+            var sum = 0;
+
+            // Convert to USD Currency if the key is 'Value'
+            if (key === 'Value') {
+                // Try to parse parentValue as a number
+                sum += parseFloat(parentValue) || 0;
+                parentValue = formatCurrency(parentValue);
+            }
+
+            // Format EffectiveDate and ExpirationDate
+            if (key === 'EffectiveDate' || key === 'ExpirationDate') {
+                parentValue = formatDate(parentValue);
+            }
+
+            childAttributesArray.forEach(childAttributes => {
+                var childValue = (childAttributes[key] || '').toString();
+
+                // Convert to USD Currency if the key is 'Value'
+                if (key === 'Value') {
+                    // Try to parse childValue as a number
+                    sum += parseFloat(childValue) || 0;
+                    childValue = formatCurrency(childValue);
+                }
+
+                // Format EffectiveDate and ExpirationDate
+                if (key === 'EffectiveDate' || key === 'ExpirationDate') {
+                    childValue = formatDate(childValue);
+                }
+
+                childValues.push(childValue);
+            });
+
+            // Determine prevailingTerm based on the sum of 'Value'
+            if (key === 'Value') {
+                prevailingTerm = formatCurrency(sum);
+            } else {
+                prevailingTerm = parentValue;
+
+                // Update prevailingTerm based on child values
+                for (var i = childValues.length - 1; i >= 0; i--) {
+                    if (childValues[i]) {
+                        prevailingTerm = childValues[i];
+                        break;
+                    }
+                }
+            }
+
+            if (key === 'DocumentName' || key === 'Type') {
+                prevailingTerm = '';
+            }
+
+            tableHtml += `<tr><td>${key}</td><td>${parentValue}</td>${childValues.map(value => `<td>${value}</td>`).join('')}<td>${prevailingTerm}</td></tr>`;
+
+            // Add to XML content if there's content
+            if (prevailingTerm) {
+                xmlContent += `  <${key}>${prevailingTerm}</${key}>`;
+            }
+        });
+
+        // Close the XML content
+        xmlContent += `<ParentDocID>${parsedParentAttributes['ParentDocID']}</ParentDocID>`;
+        xmlContent += `<ParentFolderID>${parsedParentAttributes['ParentFolderID']}</ParentFolderID>`;
+        xmlContent += `<PartyID>${parsedParentAttributes['PartyID']}</PartyID>`;
+        xmlContent += '</Attributes>';
+        console.log("XML Content:", xmlContent);
+
+        tableHtml += '</table>';
+        return tableHtml;
+    }
+
+    // Function to display contracts dynamically
+    function displayContracts(parent, children) {
+        const container = document.getElementById('contractDisplay');
+
+        // Clear existing content before adding new content
+        container.innerHTML = '<h2>Contract Hierarchy</h2>';
+
+        console.log("Parent:", parent);
+        console.log("Children:", children);
+
+        // Create the parent contract header
+        const parentDiv = document.createElement('div');
+        parentDiv.classList.add('contract-header');
+        parentDiv.innerHTML = `
+        <div>
+            <strong>${parent.DocumentName}</strong> - ${parent.Type} - ${formatDate(parent.EffectiveDate)} | <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${parent.ParentDocID}' target='_blank'>Link</a>
+        </div>
+        <div>
+            ${children.length} child records
+        </div>
+    `;
+        container.appendChild(parentDiv);
+
+        // Create the children container
+        const childrenContainer = document.createElement('div');
+        childrenContainer.classList.add('contract-children');
+
+        // Populate children
+        children.forEach(child => {
+            // Create child record container
+            const childDiv = document.createElement('div');
+            childDiv.classList.add('child-record');
+
+            // Set inner HTML for the child
+            childDiv.innerHTML = `
+            <div class="child-record-header">
+                <span><strong>${child.DocumentName}</strong> - ${child.Type}</span>
+                <span>${formatDate(child.EffectiveDate)}</span>
+            </div>
+            <div class="child-record-content">
+                <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${child.ParentDocID}' target='_blank'>Link</a>
+            </div>
+        `;
+
+            // Attach event listener to toggle content visibility
+            childDiv.querySelector('.child-record-header').addEventListener('click', () => {
+                childDiv.classList.toggle('expanded');
+            });
+
+            // Append child to the children container
+            childrenContainer.appendChild(childDiv);
+        });
+
+        // Append children container to the main container
+        container.appendChild(childrenContainer);
+
+        // Add click event to parent to toggle child records visibility
+        parentDiv.addEventListener('click', () => {
+            childrenContainer.classList.toggle('expanded');
+        });
+    }
+
+    //     console.log("parent.DocumentName", parent.DocumentName);
+    //     console.log("children.length", children.length);
+
+    //     // Create the parent contract header
+    //     var innerHtml = '';
+    //     innerHtml += `<div class='contract-header'>`;
+    //     innerHtml += `
+    //             <div>
+    //                 <strong>${parent.DocumentName}</strong> - ${parent.Type} - ${parent.EffectiveDate}
+    //             </div>
+    //             <div>
+    //                 ${children.length} child records
+    //             </div>
+    //         `;
+    //     innerHtml += `</div>`
+
+    //     // // Create the children container
+    //     innerHtml += `<div class='contract-children'>`;
+
+    //     // Populate children
+    //     children.forEach(child => {
+    //         innerHtml += `<div class='child-record'>`;
+
+    //         innerHtml += `
+    //             <div class="child-record-header">
+    //                 <span><strong>${child.DocumentName}</strong> - ${child.Type}</span>
+    //                 <span>${formatDate(child.EffectiveDate)}</span>
+    //             </div>
+    //             <div class="child-record-content">
+    //                 ${child.Details || 'No additional details'}
+    //             </div>
+    //         `;
+    //         // childDiv.querySelector('.child-record-header').addEventListener('click', () => {
+    //         //     childDiv.classList.toggle('expanded');
+    //         // });
+    //         // childrenContainer.appendChild(childDiv);
+    //         innerHtml += `</div>`;
+    //     });
+
+    //     innerHtml += `</div>`;
+
+    //     // // Add click event to toggle child records visibility
+    //     // parentDiv.addEventListener('click', () => {
+    //     //     childrenContainer.classList.toggle('expanded');
+    //     // });
+
+    //     return innerHtml;
+    // }
+
+    // Function to use XML content
+    function useXmlContent(event) {
+
+        // Prevent the default form submission behavior
+        if (event) {
+            event.preventDefault();
+        }
+
+        // Ensure xmlContent is a string
+        if (typeof xmlContent !== 'string') {
+            throw new Error('xmlContent is not a string');
+        }
+
+        // Escape and send XML content
+        var escapedXmlContent = xmlContent.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+        var body = JSON.stringify({
+            Name: workflowName,
+            Params: escapedXmlContent
+        });
+
+        console.log('Request URL:', `/v2/${docuSignaId}/workflows`);
+        console.log('Request Body:', body);
+
+        return new Promise(function (resolve, reject) {
+            SpringCM.API.post(`/v2/${docuSignaId}/workflows`, body, function (response) {
+                // Log the response to debug
+                console.log('API Response:', response);
+
+                if (response && response.status === 200) {
+                    resolve(response);
+                }
+                else if (response) {
+                    alert('Your Prevailing Terms Sheet has been created.')
+                }
+                else {
+                    // Log the response in case of error
+                    console.error('Error Response:', response);
+                    reject(new Error('Failed to post XML content'));
+                }
+            }).catch(function (error) {
+                // Log errors if any
+                console.error('Request Error:', error);
+                reject(error);
+            });
+        });
+
+    }
+
+    document.getElementById('generateButton').addEventListener('click', function (event) {
+        useXmlContent(event);
+    });
+</script>
