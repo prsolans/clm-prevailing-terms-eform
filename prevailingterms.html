@@ -1,7 +1,15 @@
 <!-- Include this in your HTML -->
 <style>
+    body {
+        font-family: "DS Indigo", DSIndigo, "Neue Haas Grotesk", NeueHaasGrotesk, Helvetica, Arial, sans-serif;
+    }
+
     h2 {
         padding-bottom: 10px;
+    }
+
+    h2.table-header {
+        padding: 15px;
     }
 
     #comparisonTableContainer table {
@@ -36,21 +44,21 @@
 
     /* Highlight the rightmost column */
     #comparisonTableContainer td:last-child {
-        border-left: 3px solid #4C2DFF;
+        border-left: 3px solid #FF5252;
     }
 
     #comparisonTableContainer th:last-child {
-        background-color: #4C2DFF;
+        background-color: #FF5252;
         /* Darker orange for header */
         color: white;
         /* White text for header */
-        border-left: 3px solid #4C2DFF;
+        border: 3px solid #FF5252;
 
     }
 
     /* Base styles for the button */
     .button {
-        background-color: #007bff;
+        background-color: #4C2DFF;
         /* Primary color */
         border: none;
         /* Remove default border */
@@ -64,13 +72,13 @@
         /* Remove underline */
         display: inline-block;
         /* Allow margin/padding to work */
-        font-size: 16px;
+        font-size: 14px;
         /* Font size */
         margin: 8px 2px;
         /* Margin around button */
         cursor: pointer;
         /* Pointer cursor on hover */
-        border-radius: 8px;
+        border-radius: 2px;
         /* Rounded corners */
         transition: background-color 0.3s ease, transform 0.3s ease;
         /* Smooth transitions */
@@ -136,6 +144,11 @@
     .child-record {
         margin-left: 20px;
         padding: 10px 0;
+        display: none;
+    }
+
+    .contract-children.expanded {
+        display: block;
     }
 
     .child-record {
@@ -181,9 +194,9 @@
         /* Use Flexbox to arrange children side by side */
         width: 100%;
         /* Full width */
-        gap: 20px;
+        gap: 0px;
         /* Gap between the two divs */
-        padding: 10px;
+        padding: 0px;
         /* Padding around the container */
         box-sizing: border-box;
         /* Include padding in the total width */
@@ -197,7 +210,7 @@
         /* Background color for visualization */
         padding: 15px;
         /* Padding inside the div */
-        border-radius: 5px;
+        border-radius: 0px;
         /* Rounded corners */
     }
 
@@ -209,24 +222,24 @@
         /* Background color for visualization */
         padding: 15px;
         /* Padding inside the div */
-        border-radius: 5px;
+        border-radius: 0px;
         /* Rounded corners */
     }
 </style>
-<div id="comparisonTableContainer"></div>
-<button id="generateButton" class="button">Generate Prevailing Term Sheet</button>
 <!-- Main container to hold both contract display and contact details -->
 <div class="row-container">
-    <!-- Contract Display (2/3 width) -->
-    <div id="contractDisplay" class="contract-container">
-        <!-- Contract display content will be dynamically added here -->
-    </div>
-
     <!-- Contact Details (1/3 width) -->
     <div id="contractDetails">
         <!-- Contact details content will be added here -->
     </div>
+    <!-- Contract Display (2/3 width) -->
+    <div id="contractDisplay" class="contract-container">
+        <!-- Contract display content will be dynamically added here -->
+    </div>
 </div>
+<div id="comparisonTableContainer"></div>
+<button id="generateButton" class="button">Generate Prevailing Term Sheet</button>
+
 
 <script>
     var xmlContent = '<Attributes>';
@@ -328,6 +341,13 @@
         }
     });
 
+    // function getClauseText(){
+    //     return new Promise(function (resolve, reject) {
+    //         https://apidownloaduatna11.springcm.com/v2/9bb5a5f6-9bd2-4956-bacc-0bdc19387c91/documents/da38f2da-9a6b-ef11-bed7-9440c98d2d61
+    //         SpringCM.API.get(`/v2/${docuSignaId}/documents/${docId}?expand=AttributeGroups`, function (data) {
+
+
+    // });
     function getDocumentAttributes(docId) {
         return new Promise(function (resolve, reject) {
             SpringCM.API.get(`/v2/${docuSignaId}/documents/${docId}?expand=AttributeGroups`, function (data) {
@@ -401,19 +421,22 @@
             });
     }
 
-    function extractAndSortAgreementDetails(data) {
+    function extractAndSortAgreementDetails(data) { 
         const result = [];
 
         // Iterate through each item in the Items array
         data.Result.Items.forEach(item => {
             const clmDetails = item.AttributeGroups["CLM Agreement Details"];
 
+            console.log(item);
+            console.log('Uid', item["Uid"]);
+
             // Check if CLM Agreement Details exists to avoid errors
             if (clmDetails) {
                 // Extract specific details from CLM Agreement Details
                 const details = {
+                    DocumentID: item["Uid"], // Add DocumentID
                     Name: clmDetails.Name?.Value || 'N/A',
-                    AgreementID: clmDetails["Agreement ID"]?.Value || 'N/A',
                     PartyName: clmDetails["Party Name"]?.Value || 'N/A',
                     PartyID: clmDetails["Party ID"]?.Value || 'N/A',
                     Type: clmDetails.Type?.Value || 'N/A',
@@ -467,6 +490,7 @@
                 if (data.responseText) {
                     reject(data.responseText); // Reject the promise on error
                 } else {
+                    console.log('fulldata', data);
                     const refinedData = extractAndSortAgreementDetails(data);
                     console.log('refinedData', refinedData);
                     resolve(refinedData); // Resolve the promise on success
@@ -503,7 +527,7 @@
     }
 
     function generateComparisonTable(attributesArray, contractNumber) {
-        var tableHtml = `<h2>Term Summary Table - ${contractNumber}</h2>`;
+        var tableHtml = `<h2 class="table-header">Term Summary Table - ${contractNumber}</h2>`;
 
         // Check if the array has at least one item
         if (!attributesArray || attributesArray.length === 0) {
@@ -536,7 +560,7 @@
         console.log('ContractNumber:', contractNumber);
 
         // List of keys to skip
-        const keysToSkip = ['ParentDocID', 'ParentFolderID', 'AgreementID', 'PartyID', 'ChildAgreementIds', 'ParentAgreementId', 'Signed'];
+        const keysToSkip = ['DocumentID', 'PartyName', 'ParentDocID', 'ParentFolderID', 'AgreementID', 'PartyID', 'ChildAgreementIds', 'ParentAgreementId', 'Signed'];
 
         // Generate table rows for parent and each child
         allKeys.forEach(key => {
@@ -605,7 +629,7 @@
             // Replace 'N/A' with empty string for prevailingTerm
             prevailingTerm = prevailingTerm === 'N/A' ? '' : prevailingTerm;
 
-            if (key === 'DocumentName' || key === 'Type') {
+            if (key === 'Name' || key === 'Type') {
                 prevailingTerm = '';
             }
 
@@ -636,58 +660,33 @@
         container.innerHTML = '<h2>Contract Hierarchy</h2>';
 
         var parent = attributesArray[0];
-        console.log("Parent:", parent);
-
         var children = attributesArray.slice(1); // The rest are child attributes
-        console.log("Children:", children);
 
         // Create the parent contract header
         const parentDiv = document.createElement('div');
         parentDiv.classList.add('contract-header');
         parentDiv.innerHTML = `
-        <div>
-            <strong>${parent.Name}</strong> - ${parent.Type} - ${formatDate(parent.EffectiveDate)} | <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${parent.ParentDocID}' target='_blank'>Link</a>
-        </div>
-        <div>
-            ${children.length} child records
-        </div>
-    `;
+            <div>
+                <strong>${parent.Name}</strong> - ${parent.Type} - ${formatDate(parent.EffectiveDate)} | <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${parent.DocumentID}' target='_blank'>Link</a>
+            </div>
+            <div>
+                ${children.length} child records
+            </div>
+        `;
         container.appendChild(parentDiv);
 
         // Create the children container
         const childrenContainer = document.createElement('div');
         childrenContainer.classList.add('contract-children');
-
-        // Populate children
         children.forEach(child => {
-            // Create child record container
             const childDiv = document.createElement('div');
-            childDiv.classList.add('child-record');
-
-            // Set inner HTML for the child
-            childDiv.innerHTML = `
-            <div class="child-record-header">
-                <span><strong>${child.Name}</strong> - ${child.Type}</span>
-                <span>${formatDate(child.EffectiveDate)}</span>
-            </div>
-            <div class="child-record-content">
-                <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${child.ParentDocID}' target='_blank'>Link</a>  | ${child.Requestor}
-            </div>
-        `;
-
-            // Attach event listener to toggle content visibility
-            childDiv.querySelector('.child-record-header').addEventListener('click', () => {
-                childDiv.classList.toggle('expanded');
-            });
-
-            // Append child to the children container
+            childDiv.innerHTML = `<strong>${child.Name}</strong> - ${child.Type} - ${formatDate(child.EffectiveDate)} - <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${child.DocumentID}' target='_blank'>Link</a>  | ${child.Requestor}`;
             childrenContainer.appendChild(childDiv);
         });
 
-        // Append children container to the main container
         container.appendChild(childrenContainer);
 
-        // Add click event to parent to toggle child records visibility
+        // Add event listener to toggle .expanded class
         parentDiv.addEventListener('click', () => {
             childrenContainer.classList.toggle('expanded');
         });
