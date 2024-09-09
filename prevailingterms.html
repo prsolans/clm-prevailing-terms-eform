@@ -74,6 +74,7 @@
         /* Allow margin/padding to work */
         font-size: 14px;
         /* Font size */
+        font-weight: bold;
         margin: 8px 2px;
         /* Margin around button */
         cursor: pointer;
@@ -134,6 +135,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        font-size: larger;
     }
 
     .contract-header:hover {
@@ -224,6 +226,7 @@
         /* Padding inside the div */
         border-radius: 0px;
         /* Rounded corners */
+        font-size: large;
     }
 </style>
 <!-- Main container to hold both contract display and contact details -->
@@ -258,14 +261,9 @@
     };
 
     var url = document.referrer;
-
-    console.log("URL:", url);
     var aId = decodeURIComponent(extractURLParameter(url, 'aid').replace(/\+/g, " "));
-    console.log("aId:", aId);
     var docId = decodeURIComponent(extractURLParameter(url, 'Id').replace(/\+/g, " "));
-    console.log("docId:", docId);
     var env = document.location.href.split("https://")[1].split('.')[0];
-    console.log("Environment:", env);
 
     loadCss('https://ux.springcm.com/ux/releases/0.10.5/css/SpringCM.UX.min.css');
     loadCss('https://ux.springcm.com/ux/releases/0.10.5/css/Atlas.Forms.min.css');
@@ -284,6 +282,7 @@
     var docuSignaId = "9bb5a5f6-9bd2-4956-bacc-0bdc19387c91";
 
     $("[ScmFormControl]").bind(Atlas.Forms.SCM_FORM_AFTER_DATA_LOAD, function (e) {
+
         // Hide top button group and bottom buttons
         $('div.buttonGroup:first').hide();
         $('div.buttonDiv').hide();
@@ -301,32 +300,37 @@
                     // Fetch related documents based on contract number and return the result
                     return fetchRelatedDocuments(contractNumber)
                         .then(relatedDocuments => {
-                            console.log('YO1-----------------------:');
                             return { parentAttributes, relatedDocuments, contractNumber }; // Pass both parentAttributes and relatedDocuments forward
                         });
                 })
                 .then(({ parentAttributes, relatedDocuments, contractNumber }) => {
-                    console.log('Fetched related documents:', relatedDocuments);
-
                     // If there are child document IDs, fetch their attributes
                     if (relatedDocuments.length > 0) {
                         return { parentAttributes, relatedDocuments, contractNumber }; // Return both parentAttributes and relatedDocuments
                     } else {
-                        console.log('located here');
                         return { relatedDocuments: [] };
                     }
                 })
                 .then(({ parentAttributes, relatedDocuments, contractNumber }) => {
-                    console.log('here now', relatedDocuments);
+                    displayContracts(relatedDocuments);
+
+                    var contractDetails = displayContractDetails(relatedDocuments, contractNumber);
+                    document.getElementById('contractDetails').innerHTML = contractDetails;
+
+                    return { parentAttributes, relatedDocuments, contractNumber }; // Return both parentAttributes and relatedDocuments
+                })
+                .then(({ parentAttributes, relatedDocuments, contractNumber }) => {
+                    console.log('relatedandsorted', relatedDocuments);
                     var tableHtml = generateComparisonTable(relatedDocuments, contractNumber);
                     document.getElementById('comparisonTableContainer').innerHTML = tableHtml;
 
-                    displayContracts(relatedDocuments);
+                    return { parentAttributes, relatedDocuments, contractNumber }; // Return both parentAttributes and relatedDocuments
+                })
+                .then(({ parentAttributes, relatedDocuments, contractNumber }) => {
+                    var clauseLanguage = getClauseContent();
+                    console.log('clauseLanguage', clauseLanguage);
 
-                    var contractDetails = displayContractDetails(relatedDocuments);
-                    document.getElementById('contractDetails').innerHTML = contractDetails;
-
-                    $('div#spinnerOverlay').hide();
+                    return { parentAttributes, relatedDocuments, contractNumber }; // Return both parentAttributes and relatedDocuments
                 })
                 .catch(error => {
                     console.log("Error:", error);
@@ -341,13 +345,24 @@
         }
     });
 
-    // function getClauseText(){
-    //     return new Promise(function (resolve, reject) {
-    //         https://apidownloaduatna11.springcm.com/v2/9bb5a5f6-9bd2-4956-bacc-0bdc19387c91/documents/da38f2da-9a6b-ef11-bed7-9440c98d2d61
-    //         SpringCM.API.get(`/v2/${docuSignaId}/documents/${docId}?expand=AttributeGroups`, function (data) {
+    /**
+     * Retrieves the content of a clause from a SpringCM document.
+     * 
+     * @returns {Promise} A promise that resolves with the JSON data containing the clause content.
+     */
+    function getClauseContent() {
 
+        let documentID = 'da38f2da-9a6b-ef11-bed7-9440c98d2d61';
+        let downloadURL = "https://apidownloaduatna11.springcm.com/v2/" + docuSignaId + "/documents/" + documentID;
+        return new Promise((resolve, reject) => {
+            SpringCM.API.get(downloadURL, function (_data) {
+                const jsonData = JSON.parse(_data);
+                console.log('jsonData', jsonData);
+                resolve(jsonData);
+            });
+        });
+    }
 
-    // });
     function getDocumentAttributes(docId) {
         return new Promise(function (resolve, reject) {
             SpringCM.API.get(`/v2/${docuSignaId}/documents/${docId}?expand=AttributeGroups`, function (data) {
@@ -361,10 +376,6 @@
 
                 var attributes = data.AttributeGroups || {};
                 var hasCLMDocumentDetails = attributes['CLM Agreement Details'] !== undefined;
-
-                console.log("data", data);
-
-                console.log("Attributes:", attributes);
 
                 if (!hasCLMDocumentDetails) {
                     reject('No attribute data');
@@ -401,7 +412,6 @@
                         "ContractIsParent": attributes['Contract Record']?.['Is Parent?']?.Value || '',
                     };
 
-                    console.log("Document Attributes:", documentAttributes);
                     resolve(documentAttributes);
                 }
             });
@@ -412,7 +422,6 @@
         return getAllDocumentIds(contractNumber)
             .then(relatedDocuments => {
                 // Do any additional processing if needed
-                console.log('reletedDocuments', relatedDocuments);
                 return relatedDocuments; // Return the list of related documents
             })
             .catch(error => {
@@ -421,15 +430,12 @@
             });
     }
 
-    function extractAndSortAgreementDetails(data) { 
+    function extractAndSortAgreementDetails(data) {
         const result = [];
 
         // Iterate through each item in the Items array
         data.Result.Items.forEach(item => {
             const clmDetails = item.AttributeGroups["CLM Agreement Details"];
-
-            console.log(item);
-            console.log('Uid', item["Uid"]);
 
             // Check if CLM Agreement Details exists to avoid errors
             if (clmDetails) {
@@ -459,10 +465,16 @@
             }
         });
 
-        // Sort by EffectiveDate (oldest to newest)
+        console.log('unsorted', result);
+
+        // Sort by EffectiveDate (oldest to newest) - original format is 20230224000000
         result.sort((a, b) => {
-            const dateA = new Date(a.EffectiveDate.slice(0, 4), a.EffectiveDate.slice(4, 6) - 1, a.EffectiveDate.slice(6, 8));
-            const dateB = new Date(b.EffectiveDate.slice(0, 4), b.EffectiveDate.slice(4, 6) - 1, b.EffectiveDate.slice(6, 8));
+            const dateA = a.EffectiveDate ? new Date(a.EffectiveDate.slice(0, 4), a.EffectiveDate.slice(4, 6) - 1, a.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
+            const dateB = b.EffectiveDate ? new Date(b.EffectiveDate.slice(0, 4), b.EffectiveDate.slice(4, 6) - 1, b.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
+
+            if (isNaN(dateA)) return 1; // Treat invalid dateA as greater
+            if (isNaN(dateB)) return -1; // Treat invalid dateB as greater
+
             return dateA - dateB;
         });
 
@@ -482,8 +494,6 @@
                     }
                 ]
             };
-
-            console.log('payload', payload);
 
             // Send the POST request with the payload
             SpringCM.API.post(`/v2/${docuSignaId}/documentsearchtasks/?expand=AttributeGroups`, payload, (data) => {
@@ -527,7 +537,7 @@
     }
 
     function generateComparisonTable(attributesArray, contractNumber) {
-        var tableHtml = `<h2 class="table-header">Term Summary Table - ${contractNumber}</h2>`;
+        var tableHtml = `<h2 class="table-header">Term Summary Table</h2>`;
 
         // Check if the array has at least one item
         if (!attributesArray || attributesArray.length === 0) {
@@ -557,7 +567,6 @@
             // Merge child attributes keys
             allKeys = new Set([...allKeys, ...Object.keys(parsedChildAttributes)]);
         });
-        console.log('ContractNumber:', contractNumber);
 
         // List of keys to skip
         const keysToSkip = ['DocumentID', 'PartyName', 'ParentDocID', 'ParentFolderID', 'AgreementID', 'PartyID', 'ChildAgreementIds', 'ParentAgreementId', 'Signed'];
@@ -646,7 +655,6 @@
         xmlContent += `<ParentFolderID>${parsedParentAttributes['ParentFolderID']}</ParentFolderID>`;
         xmlContent += `<PartyID>${parsedParentAttributes['PartyID']}</PartyID>`;
         xmlContent += '</Attributes>';
-        console.log("XML Content:", xmlContent);
 
         tableHtml += '</table>';
         return tableHtml;
@@ -658,7 +666,6 @@
 
         // Clear existing content before adding new content
         container.innerHTML = '<h2>Contract Hierarchy</h2>';
-
         var parent = attributesArray[0];
         var children = attributesArray.slice(1); // The rest are child attributes
 
@@ -693,12 +700,9 @@
     }
 
     // Function to display high-level contract details that fills in contractDetails
-    function displayContractDetails(parent) {
+    function displayContractDetails(parent, contractNumber) {
         // Clear existing content before adding new content
-        var contractDetailsHtml = `<h2>Contract Details</h2><strong>Party Name:</strong> ${parent[0].PartyName}<br/><strong>Account Owner:</strong> ${parent[0].Requestor}`;
-        console.log("Parent:", parent[0]);
-
-        // container.appendChild(childrenContainer);
+        var contractDetailsHtml = `<h2>Contract: ${contractNumber}</h2><strong>Party Name:</strong> ${parent[0].PartyName}<br/><strong>Account Owner:</strong> ${parent[0].Requestor}`;
 
         return contractDetailsHtml;
     }
@@ -723,14 +727,9 @@
             Params: escapedXmlContent
         });
 
-        console.log('Request URL:', `/v2/${docuSignaId}/workflows`);
-        console.log('Request Body:', body);
-
         return new Promise(function (resolve, reject) {
             SpringCM.API.post(`/v2/${docuSignaId}/workflows`, body, function (response) {
                 // Log the response to debug
-                console.log('API Response:', response);
-
                 if (response && response.status === 200) {
                     resolve(response);
                 }
