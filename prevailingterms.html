@@ -4,56 +4,75 @@
         font-family: "DS Indigo", DSIndigo, "Neue Haas Grotesk", NeueHaasGrotesk, Helvetica, Arial, sans-serif;
     }
 
+    h1 {
+        color: white;
+        font-size: 3rem;
+        font-weight: bolder;
+    }
+
     h2 {
         padding-bottom: 10px;
+        color: white;
     }
 
     h2.table-header {
         padding: 15px;
+        color: #6c757d;
     }
 
-    #comparisonTableContainer table {
+    #comparisonTableContainer table,
+    #clauseContentContainer table {
         width: 100%;
         border-collapse: collapse;
         font-family: Arial, sans-serif;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        /* Add a light shadow to the bottom */
     }
 
     #comparisonTableContainer th,
-    #comparisonTableContainer td {
+    #comparisonTableContainer td,
+    #clauseContentContainer th,
+    #clauseContentContainer td {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
     }
 
-    #comparisonTableContainer th {
+    #comparisonTableContainer th,
+    #clauseContentContainer th {
         background-color: #f4f4f4;
     }
 
-    #comparisonTableContainer tr:nth-child(even) {
+    #comparisonTableContainer tr:nth-child(even),
+    #clauseContentContainer tr:nth-child(even) {
         background-color: #f9f9f9;
     }
 
-    #comparisonTableContainer tr:hover {
+    #comparisonTableContainer tr:hover,
+    #clauseContentContainer tr:hover {
         background-color: #f1f1f1;
     }
 
     #comparisonTableContainer th,
-    #comparisonTableContainer td {
+    #comparisonTableContainer td,
+    #clauseContentContainer th,
+    #clauseContentContainer td {
         font-size: 14px;
     }
 
     /* Highlight the rightmost column */
-    #comparisonTableContainer td:last-child {
+    #comparisonTableContainer td:last-child,
+    #clauseContentContainer td:last-child {
         border-left: 3px solid #FF5252;
     }
 
-    #comparisonTableContainer th:last-child {
+    #comparisonTableContainer th:last-child,
+    #clauseContentContainer th:last-child {
         background-color: #FF5252;
         /* Darker orange for header */
         color: white;
         /* White text for header */
         border: 3px solid #FF5252;
-
     }
 
     /* Base styles for the button */
@@ -128,9 +147,10 @@
     }
 
     .contract-header {
-        background-color: #e9f5e9;
+        background-color: #e0e0e0;
+        color: #6c757d;
         padding: 10px;
-        border-radius: 5px;
+        border-radius: 3px;
         cursor: pointer;
         display: flex;
         justify-content: space-between;
@@ -139,18 +159,18 @@
     }
 
     .contract-header:hover {
-        background-color: #d3ebd3;
+        border-bottom: 2px solid #6c757d
     }
 
     .contract-children,
     .child-record {
-        margin-left: 20px;
-        padding: 10px 0;
+        padding: 10px;
         display: none;
     }
 
     .contract-children.expanded {
         display: block;
+        background-color: #6c757d;
     }
 
     .child-record {
@@ -159,7 +179,7 @@
 
     .record-type {
         font-size: 0.9em;
-        color: #666;
+        color: #6c757d;
     }
 
     .child-record-header {
@@ -202,14 +222,19 @@
         /* Padding around the container */
         box-sizing: border-box;
         /* Include padding in the total width */
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+        /* Add a light shadow to the bottom */
+        background-color: black;
+        /* Black background color */
+        color: white;
+        /* White text color */
     }
 
     /* Contract Display takes up 2/3 of the row */
     #contractDisplay {
         flex: 2;
         /* Takes up 2/3 of the available space */
-        background-color: #f0f0f0;
-        /* Background color for visualization */
+        border-left: 3px solid white;
         padding: 15px;
         /* Padding inside the div */
         border-radius: 0px;
@@ -220,15 +245,67 @@
     #contractDetails {
         flex: 1;
         /* Takes up 1/3 of the available space */
-        background-color: #e0e0e0;
-        /* Background color for visualization */
         padding: 15px;
         /* Padding inside the div */
         border-radius: 0px;
         /* Rounded corners */
         font-size: large;
     }
+
+    /* Add styles for the header row and drop-down menu */
+    .header-row {
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+        float: left;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        background-color: #f8f9fa;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f8f9fa;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f8f9fa;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown .dropbtn {
+        border-style: none;
+        border-color: inherit;
+        border-width: 0px;
+        background-color: #f8f9fa;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #c9e6ca;
+    }
 </style>
+
+
+
 <!-- Main container to hold both contract display and contact details -->
 <div class="row-container">
     <!-- Contact Details (1/3 width) -->
@@ -240,9 +317,19 @@
         <!-- Contract display content will be dynamically added here -->
     </div>
 </div>
+<!-- Header row with drop-down menu -->
+<div class="header-row">
+    <div class="dropdown">
+        <button class="dropbtn">Actions</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="document.getElementById('generateButton').click();">Generate Amendment</a>
+            <a href="#" onclick="document.getElementById('generateButton').click();">Refresh Clause Library</a>
+            <a href="#" onclick="document.getElementById('generateButton').click();">Generate Prevailing Term Sheet</a>
+        </div>
+    </div>
+</div>
 <div id="comparisonTableContainer"></div>
-<button id="generateButton" class="button">Generate Prevailing Term Sheet</button>
-
+<div id="clauseContentContainer"></div>
 
 <script>
     var xmlContent = '<Attributes>';
@@ -280,6 +367,7 @@
 
 <script type="text/javascript">
     var docuSignaId = "9bb5a5f6-9bd2-4956-bacc-0bdc19387c91";
+    var searchResults = null;
 
     $("[ScmFormControl]").bind(Atlas.Forms.SCM_FORM_AFTER_DATA_LOAD, function (e) {
 
@@ -327,8 +415,7 @@
                     return { parentAttributes, relatedDocuments, contractNumber }; // Return both parentAttributes and relatedDocuments
                 })
                 .then(({ parentAttributes, relatedDocuments, contractNumber }) => {
-                    var clauseLanguage = getClauseContent();
-                    console.log('clauseLanguage', clauseLanguage);
+                    var clauseLanguage = fetchAndFilterClauseContent(searchResults);
 
                     return { parentAttributes, relatedDocuments, contractNumber }; // Return both parentAttributes and relatedDocuments
                 })
@@ -345,19 +432,71 @@
         }
     });
 
+    var clauseContents = []; // Global variable to store clause contents
+
+    function fetchAndFilterClauseContent(attributesArray) {
+        attributesArray = attributesArray.Result.Items;
+        // console.log('attributesArray II', attributesArray);
+        var filteredAttributes = attributesArray.filter(attributes => attributes.Extension === 'sxterm');
+        // console.log('filteredAttributes', filteredAttributes);
+        var promises = filteredAttributes.map(attributes => getClauseContent(attributes.Uid));
+
+        return Promise.all(promises)
+            .then(clauseContentsArray => {
+                clauseContentsArray.forEach((clauseContent, index) => {
+                    clauseContents[filteredAttributes[index].DocumentID] = clauseContent;
+                });
+                console.log('clauseContents', clauseContents);
+                displayClauseContent(clauseContents);
+                return clauseContents;
+            })
+            .catch(error => {
+                console.error('Error fetching and filtering clause content:', error);
+                throw error;
+            });
+    }
+
+    function displayClauseContent(clauseContents) {
+        var tableHtml = '<h2 class="table-header">Clause Content</h2>';
+        tableHtml += '<table>';
+        tableHtml += '<tr><th>Content</th><th>Name</th><th>Notes</th></tr>';
+        console.log('clauseContents - display', clauseContents);
+        console.log('typeof clauseContents', typeof clauseContents);
+        console.log('clauseContents.length', clauseContents.length);
+
+        clauseContents.forEach(clause => {
+            console.log('clause', clause);
+            tableHtml += '<tr>';
+            tableHtml += `<td>${clause.Name}</td>`;
+            tableHtml += `<td>${clause.Content}</td>`;
+            tableHtml += `<td>${clause.Notes}</td>`;
+            tableHtml += '</tr>';
+        });
+
+        tableHtml += '</table>';
+        document.getElementById('clauseContentContainer').innerHTML = tableHtml;
+        return tableHtml;
+
+    }
+
     /**
      * Retrieves the content of a clause from a SpringCM document.
      * 
      * @returns {Promise} A promise that resolves with the JSON data containing the clause content.
      */
-    function getClauseContent() {
+    function getClauseContent(documentID) {
 
-        let documentID = 'da38f2da-9a6b-ef11-bed7-9440c98d2d61';
         let downloadURL = "https://apidownloaduatna11.springcm.com/v2/" + docuSignaId + "/documents/" + documentID;
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             SpringCM.API.get(downloadURL, function (_data) {
                 const jsonData = JSON.parse(_data);
-                console.log('jsonData', jsonData);
+
+                clauseContents.push({
+                    "Name": jsonData['0'].Name,
+                    "Content": jsonData['0'].Content,
+                    "Notes": jsonData['0'].Notes,
+                    "Uid": jsonData['0'].Uid
+                });
                 resolve(jsonData);
             });
         });
@@ -500,7 +639,7 @@
                 if (data.responseText) {
                     reject(data.responseText); // Reject the promise on error
                 } else {
-                    console.log('fulldata', data);
+                    searchResults = data;
                     const refinedData = extractAndSortAgreementDetails(data);
                     console.log('refinedData', refinedData);
                     resolve(refinedData); // Resolve the promise on success
@@ -673,13 +812,13 @@
         const parentDiv = document.createElement('div');
         parentDiv.classList.add('contract-header');
         parentDiv.innerHTML = `
-            <div>
-                <strong>${parent.Name}</strong> - ${parent.Type} - ${formatDate(parent.EffectiveDate)} | <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${parent.DocumentID}' target='_blank'>Link</a>
-            </div>
-            <div>
-                ${children.length} child records
-            </div>
-        `;
+                <div>
+                    <strong>${parent.Name}</strong> - ${parent.Type} - ${formatDate(parent.EffectiveDate)} | <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${parent.DocumentID}' target='_blank'>Link</a>
+                </div>
+                <div>
+                    ${children.length} child records
+                </div>
+            `;
         container.appendChild(parentDiv);
 
         // Create the children container
@@ -702,7 +841,7 @@
     // Function to display high-level contract details that fills in contractDetails
     function displayContractDetails(parent, contractNumber) {
         // Clear existing content before adding new content
-        var contractDetailsHtml = `<h2>Contract: ${contractNumber}</h2><strong>Party Name:</strong> ${parent[0].PartyName}<br/><strong>Account Owner:</strong> ${parent[0].Requestor}`;
+        var contractDetailsHtml = `<h1>${contractNumber}</h1><strong>Party Name:</strong> ${parent[0].PartyName}<br/><strong>Account Owner:</strong> ${parent[0].Requestor}`;
 
         return contractDetailsHtml;
     }
