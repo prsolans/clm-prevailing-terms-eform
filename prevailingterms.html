@@ -168,9 +168,12 @@
 
     .big-container {
         max-width: 110%;
-        margin: -20px;
+        margin: -40px;
     }
 
+    #ctl00_MainContent_ContentHeader {
+        display: none;
+    }
     /* Term Summary Table */
     #comparisonTableContainer {
         max-width: 100%;
@@ -178,6 +181,7 @@
         white-space: normal;
         padding: 10px;
         box-sizing: border-box;
+        margin: 10px;
     }
 
     /* Clause Content Table */
@@ -185,6 +189,7 @@
         max-width: 100%;
         padding: 10px;
         box-sizing: border-box;
+        margin: 10px;
     }
 
     #comparisonTableContainer table,
@@ -357,7 +362,7 @@
         /* Use Flexbox to arrange children side by side */
         gap: 0px;
         /* Gap between the two divs */
-        padding: 0px;
+        padding: 20px 10px;
         /* Padding around the container */
         box-sizing: border-box;
         /* Include padding in the total width */
@@ -396,7 +401,7 @@
 
     /* Add styles for the header row and drop-down menu */
     .header-row {
-        padding: 10px;
+        padding: 10px 20px;
         background-color: #f8f9fa;
         border-bottom: 2px solid #dee2e6;
         float: left;
@@ -409,6 +414,7 @@
         padding: 10px;
         border-top: 1px solid #dee2e6;
         border-bottom: 1px solid #dee2e6;
+        margin-right: 10px;
     }
 
     .dropdown {
@@ -467,10 +473,10 @@
     <!-- Header row with drop-down menu -->
     <div class="header-row">
         <div class="dropdown">
-            <button class="dropbtn" disabled>Actions <span style="float: right" data-qa="header-ActionsMenuName-tab-button-end"
-                    class="css-1d11tbi"><span class="css-hg1vx5"><span aria-hidden="true" class="SVGInline"><svg
-                                class="SVGInline-svg" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24" focusable="false">
+            <button class="dropbtn" disabled>Actions <span style="float: right"
+                    data-qa="header-ActionsMenuName-tab-button-end" class="css-1d11tbi"><span class="css-hg1vx5"><span
+                            aria-hidden="true" class="SVGInline"><svg class="SVGInline-svg" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false">
                                 <path d="m22 8.34-9.41 9.41a.82.82 0 0 1-1.18 0L2 8.34 3.34 7 12 15.66 20.66 7z"></path>
                             </svg></span></span></span></button>
             <div class="dropdown-content">
@@ -484,6 +490,8 @@
     <div class="subheader-row">
         <label for="toggleContractActive">Show Inactive Contracts</label>
         <input type="checkbox" id="toggleContractActive" onchange="toggleContracts(relatedDocuments)">
+        <!-- <label for="toggleParentPrevailing">Show Only Parent and Prevailing</label>
+        <input type="checkbox" id="toggleParentPrevailing" onchange="toggleContractComparison(relatedDocuments)"> -->
         <label for="filterDropdown">Filter by Category:</label>
         <select id="filterDropdown" onchange="filterDatapoints(this.value)">
             <option value="">All</option>
@@ -635,6 +643,18 @@
         filterRows(comparisonRows);
     }
 
+
+    // Function to handle the toggle switch
+    function toggleContractComparison(relatedDocuments) {
+
+        console.log('Toggle switch clicked');
+        console.log('relatedDocuments:', relatedDocuments);
+        // Toggle the boolean value
+        show = document.getElementById('toggleContractActive').checked ? "True" : "False";
+
+        // Re-generate the table with the current toggle state and attributesArray
+        document.getElementById('comparisonTableContainer').innerHTML = generateComparisonTable(relatedDocuments, contractNumber);
+    }
 
     // Function to handle the toggle switch
     function toggleContracts(relatedDocuments) {
@@ -941,38 +961,15 @@
         });
     }
 
-    function parseAttributes(attributes) {
-        var parsedAttributes = {};
-        for (var key in attributes) {
-            if (attributes.hasOwnProperty(key)) {
-                // Assuming attributes[key] is a primitive value
-                parsedAttributes[key] = attributes[key] || '';
-            }
-        }
-        return parsedAttributes;
-    }
-
-    function formatCurrency(value) {
-        if (isNaN(value)) return '';
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
-    }
-
-    function formatDate(dateString) {
-        if (!dateString) return '';
-        // Extract year, month, and day from the dateString
-        var year = dateString.substring(0, 4);
-        var month = dateString.substring(4, 6);
-        var day = dateString.substring(6, 8);
-
-        // Format date as MM/DD/YYYY
-        return `${month}/${day}/${year}`;
-    }
     function generateComparisonTable(attributesArray, contractNumber) {
         console.log('Generating Comparison Table with attributesArray:', attributesArray);
         var tableHtml = `<h2 class="table-header">Term Summary Table</h2>`;
 
         // Remove any rows where parent.Name contains "sxterm"
         attributesArray = attributesArray.filter(parent => !parent.Name.includes("sxterm"));
+
+        // Remove any rows where parent.Name contains "Prevailing"
+        attributesArray = attributesArray.filter(parent => !parent.Name.includes("Prevailing"));
 
         // Filter agreements based on the toggle state
         if (showInactiveContracts === "False") {
@@ -1140,6 +1137,9 @@
         // remove any rows were parent.Name contains "sxterm"
         attributesArray = attributesArray.filter(parent => !parent.Name.includes("sxterm"));
 
+        // Remove any rows where parent.Name contains "Prevailing"
+        attributesArray = attributesArray.filter(parent => !parent.Name.includes("Prevailing"));
+
         console.log('Attributes Array:', attributesArray);
 
         // update global relatedDocuments variable
@@ -1236,9 +1236,38 @@
         });
 
     }
+
+
+    function parseAttributes(attributes) {
+        var parsedAttributes = {};
+        for (var key in attributes) {
+            if (attributes.hasOwnProperty(key)) {
+                // Assuming attributes[key] is a primitive value
+                parsedAttributes[key] = attributes[key] || '';
+            }
+        }
+        return parsedAttributes;
+    }
+
+    function formatCurrency(value) {
+        if (isNaN(value)) return '';
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return '';
+        // Extract year, month, and day from the dateString
+        var year = dateString.substring(0, 4);
+        var month = dateString.substring(4, 6);
+        var day = dateString.substring(6, 8);
+
+        // Format date as MM/DD/YYYY
+        return `${month}/${day}/${year}`;
+    }
+
     var workflowNamePrevailingTermSummary = 'Prevailing Term Summary';
     var workflowNameGenerateAmendment = 'Prevailing Term Amendment';
-    
+
     document.getElementById('generateTermSummary').addEventListener('click', function (event) {
         callWorkflowApi(event, workflowNamePrevailingTermSummary);
     });
