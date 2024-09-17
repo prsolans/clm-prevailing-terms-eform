@@ -1,13 +1,159 @@
 <!-- Include this in your HTML -->
+<style data-emotion="css-global" data-s="">
+    @font-face {
+        font-display: block;
+        font-family: '7_Docusign';
+        font-style: normal;
+        font-weight: 400;
+        src: url('https://www.docusign.com/assets/fonts/7_Docusign.woff') format('woff');
+    }
+
+    @font-face {
+        font-display: block;
+        font-family: 'DSIndigo';
+        font-style: normal;
+        font-weight: 300;
+        src: url('https://www.docusign.com/assets/fonts/dsindigo-light.woff2') format('woff2'), url('https://www.docusign.com/assets/fonts/dsindigo-light.woff') format('woff');
+    }
+
+    @font-face {
+        font-display: block;
+        font-family: 'DSIndigo';
+        font-style: italic;
+        font-weight: 300;
+        src: url('https://www.docusign.com/assets/fonts/dsindigo-lightitalic.woff2') format('woff2'), url('https://www.docusign.com/assets/fonts/dsindigo-lightitalic.woff') format('woff');
+    }
+
+    @font-face {
+        font-display: block;
+        font-family: 'DSIndigo';
+        font-style: normal;
+        font-weight: 400;
+        src: url('https://www.docusign.com/assets/fonts/dsindigo-regular.woff2') format('woff2'), url('https://www.docusign.com/assets/fonts/dsindigo-regular.woff') format('woff');
+    }
+
+    @font-face {
+        font-display: block;
+        font-family: 'DSIndigo';
+        font-style: normal;
+        font-weight: 500;
+        src: url('https://www.docusign.com/assets/fonts/dsindigo-medium.woff2') format('woff2'), url('https://www.docusign.com/assets/fonts/dsindigo-medium.woff') format('woff');
+    }
+
+    @font-face {
+        font-display: block;
+        font-family: 'DSIndigo';
+        font-style: normal;
+        font-weight: 600;
+        src: url('https://www.docusign.com/assets/fonts/dsindigo-semibold.woff2') format('woff2'), url('https://www.docusign.com/assets/fonts/dsindigo-semibold.woff') format('woff');
+    }
+
+    @font-face {
+        font-family: 'Noto Sans Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ09DdVWYVP8c9MMEL.woff2) format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+    }
+
+    @font-face {
+        font-family: 'Noto Sans Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ09ndVWYVP8c9MMEL.woff2) format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+    }
+
+    @font-face {
+        font-family: 'Noto Sans Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ09HdVWYVP8c9MMEL.woff2) format('woff2');
+        unicode-range: U+1F00-1FFF;
+    }
+
+    @font-face {
+        font-family: 'Noto Sans Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ097dVWYVP8c9MMEL.woff2) format('woff2');
+        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+    }
+
+    @font-face {
+        font-family: 'Noto Sans Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ09LdVWYVP8c9MMEL.woff2) format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+    }
+
+    @font-face {
+        font-family: 'Noto Sans Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ09PdVWYVP8c9MMEL.woff2) format('woff2');
+        unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+
+    @font-face {
+        font-family: 'Noto Sans Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ093dVWYVP8c9MA.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: DSIndigo, Helvetica, Arial, sans-serif;
+    }
+
+    p {
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+    }
+
+    sup {
+        font-size: 0.8em;
+        line-height: 1;
+    }
+
+    html,
+    body {
+        background: #ffffff;
+        color: #130032;
+        font-weight: 400;
+        margin: 0;
+        scroll-padding-top: 8rem;
+    }
+</style>
 <style>
     body {
         font-family: "DS Indigo", DSIndigo, "Neue Haas Grotesk", NeueHaasGrotesk, Helvetica, Arial, sans-serif;
+        margin: 0;
+        overflow-x: hidden;
     }
 
     h1 {
         color: white;
-        font-size: 3rem;
-        font-weight: bolder;
+        font-size: 2.4rem;
+        margin-bottom: 10px;
     }
 
     h2 {
@@ -16,8 +162,29 @@
     }
 
     h2.table-header {
-        padding: 15px;
+        padding: 5px;
         color: #6c757d;
+    }
+
+    .big-container {
+        max-width: 110%;
+        margin: -20px;
+    }
+
+    /* Term Summary Table */
+    #comparisonTableContainer {
+        max-width: 100%;
+        overflow-x: auto;
+        white-space: normal;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    /* Clause Content Table */
+    #clauseContentContainer {
+        max-width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
     }
 
     #comparisonTableContainer table,
@@ -27,6 +194,8 @@
         font-family: Arial, sans-serif;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
         /* Add a light shadow to the bottom */
+        position: relative;
+        font-size: 16px;
     }
 
     #comparisonTableContainer th,
@@ -34,19 +203,44 @@
     #clauseContentContainer th,
     #clauseContentContainer td {
         border: 1px solid #dddddd;
-        text-align: left;
+        text-align: center;
         padding: 8px;
+    }
+
+    #comparisonTableContainer th:first-child,
+    #comparisonTableContainer td:first-child,
+    #clauseContentContainer th:first-child,
+    #clauseContentContainer td:first-child {
+        text-align: left;
+        position: sticky;
+        width: 200px;
     }
 
     #comparisonTableContainer th,
     #clauseContentContainer th {
         background-color: #f4f4f4;
+        font-family: "DS Indigo", DSIndigo, Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.5;
+        letter-spacing: 0.8px;
+        -webkit-box-align: center;
+        align-items: center;
+        background: 0px 0px;
+        border: none;
+        border-radius: 0px;
+        color: inherit;
+        cursor: pointer;
+        margin: 0px;
+        padding: 8px;
+        text-transform: inherit;
+        white-space: nowrap;
     }
 
-    #comparisonTableContainer tr:nth-child(even),
-    #clauseContentContainer tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
+    /* #comparisonTableContainer tr:nth-child(even),
+        #clauseContentContainer tr:nth-child(even) {
+            background-color: #f9f9f9;
+        } */
 
     #comparisonTableContainer tr:hover,
     #clauseContentContainer tr:hover {
@@ -57,87 +251,28 @@
     #comparisonTableContainer td,
     #clauseContentContainer th,
     #clauseContentContainer td {
-        font-size: 14px;
+        border-left: 0;
+        border-right: 0;
+    }
+
+    #comparisonTableContainer th,
+    #clauseContentContainer th {
+        background-color: rgb(246, 242, 255);
     }
 
     /* Highlight the rightmost column */
     #comparisonTableContainer td:last-child,
     #clauseContentContainer td:last-child {
-        border-left: 3px solid #FF5252;
+        border-left: 1px solid rgb(224, 212, 255);
     }
 
     #comparisonTableContainer th:last-child,
     #clauseContentContainer th:last-child {
-        background-color: #FF5252;
+        background-color: rgb(224, 212, 255);
         /* Darker orange for header */
-        color: white;
+        color: black;
         /* White text for header */
-        border: 3px solid #FF5252;
-    }
-
-    /* Base styles for the button */
-    .button {
-        background-color: #4C2DFF;
-        /* Primary color */
-        border: none;
-        /* Remove default border */
-        color: white;
-        /* Text color */
-        padding: 12px 24px;
-        /* Padding */
-        text-align: center;
-        /* Center text */
-        text-decoration: none;
-        /* Remove underline */
-        display: inline-block;
-        /* Allow margin/padding to work */
-        font-size: 14px;
-        /* Font size */
-        font-weight: bold;
-        margin: 8px 2px;
-        /* Margin around button */
-        cursor: pointer;
-        /* Pointer cursor on hover */
-        border-radius: 2px;
-        /* Rounded corners */
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        /* Smooth transitions */
-    }
-
-    /* Hover effect */
-    .button:hover {
-        background-color: #0056b3;
-        /* Darker shade of primary color */
-        transform: translateY(-2px);
-        /* Lift effect */
-    }
-
-    /* Active effect */
-    .button:active {
-        background-color: #004494;
-        /* Even darker shade */
-        transform: translateY(0);
-        /* Reset lift effect */
-    }
-
-    /* Disabled state */
-    .button:disabled {
-        background-color: #6c757d;
-        /* Gray color */
-        cursor: not-allowed;
-        /* Not-allowed cursor */
-        opacity: 0.65;
-        /* Slightly transparent */
-        transform: none;
-        /* Remove any transform effects */
-    }
-
-    /* Optional focus effect for accessibility */
-    .button:focus {
-        outline: none;
-        /* Remove default outline */
-        box-shadow: 0 0 0 3px rgba(38, 143, 255, 0.5);
-        /* Blue outline */
+        border: 3px solid rgb(224, 212, 255);
     }
 
     /* Basic styling for the contract display */
@@ -156,10 +291,12 @@
         justify-content: space-between;
         align-items: center;
         font-size: larger;
+        max-width: 800px;
+
     }
 
-    .contract-header:hover {
-        border-bottom: 2px solid #6c757d
+    .contract-header .contract-name {
+        color: black;
     }
 
     .contract-children,
@@ -170,7 +307,11 @@
 
     .contract-children.expanded {
         display: block;
-        background-color: #6c757d;
+        background-color: white;
+        color: black;
+        border-radius: 3px;
+        margin-top: 5px;
+        max-width: 800px;
     }
 
     .child-record {
@@ -214,8 +355,6 @@
     .row-container {
         display: flex;
         /* Use Flexbox to arrange children side by side */
-        width: 100%;
-        /* Full width */
         gap: 0px;
         /* Gap between the two divs */
         padding: 0px;
@@ -224,10 +363,12 @@
         /* Include padding in the total width */
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
         /* Add a light shadow to the bottom */
-        background-color: black;
+        background-color: rgb(33, 78, 159);
         /* Black background color */
         color: white;
         /* White text color */
+        max-width: 100%;
+        /* Set maximum width to 100% of screen size */
     }
 
     /* Contract Display takes up 2/3 of the row */
@@ -244,6 +385,7 @@
     /* Contact Details takes up 1/3 of the row */
     #contractDetails {
         flex: 1;
+        max-width: 400px;
         /* Takes up 1/3 of the available space */
         padding: 15px;
         /* Padding inside the div */
@@ -260,6 +402,13 @@
         float: left;
         width: 100%;
         margin-bottom: 20px;
+    }
+
+    .subheader-row {
+        text-align: right;
+        padding: 10px;
+        border-top: 1px solid #dee2e6;
+        border-bottom: 1px solid #dee2e6;
     }
 
     .dropdown {
@@ -285,7 +434,7 @@
     }
 
     .dropdown-content a:hover {
-        background-color: #f8f9fa;
+        background-color: #e0e0e0;
     }
 
     .dropdown:hover .dropdown-content {
@@ -297,44 +446,56 @@
         border-color: inherit;
         border-width: 0px;
         background-color: #f8f9fa;
-    }
-
-    .dropdown:hover .dropbtn {
-        background-color: #c9e6ca;
+        font-size: 1.1em;
+        color: black;
     }
 </style>
 
 
-
-<!-- Main container to hold both contract display and contact details -->
-<div class="row-container">
-    <!-- Contact Details (1/3 width) -->
-    <div id="contractDetails">
-        <!-- Contact details content will be added here -->
-    </div>
-    <!-- Contract Display (2/3 width) -->
-    <div id="contractDisplay" class="contract-container">
-        <!-- Contract display content will be dynamically added here -->
-    </div>
-</div>
-<!-- Header row with drop-down menu -->
-<div class="header-row">
-    <div class="dropdown">
-        <button class="dropbtn">Actions</button>
-        <div class="dropdown-content">
-            <a href="#" onclick="document.getElementById('generateButton').click();">Generate Amendment</a>
-            <a href="#" onclick="document.getElementById('generateButton').click();">Refresh Clause Library</a>
-            <a href="#" onclick="document.getElementById('generateButton').click();">Generate Prevailing Term Sheet</a>
+<div class="big-container">
+    <!-- Main container to hold both contract display and contact details -->
+    <div class="row-container">
+        <!-- Contact Details (1/3 width) -->
+        <div id="contractDetails">
+            <!-- Contact details content will be added here -->
+        </div>
+        <!-- Contract Display (2/3 width) -->
+        <div id="contractDisplay" class="contract-container">
+            <!-- Contract display content will be dynamically added here -->
         </div>
     </div>
+    <!-- Header row with drop-down menu -->
+    <div class="header-row">
+        <div class="dropdown">
+            <button class="dropbtn" disabled>Actions <span style="float: right" data-qa="header-ActionsMenuName-tab-button-end"
+                    class="css-1d11tbi"><span class="css-hg1vx5"><span aria-hidden="true" class="SVGInline"><svg
+                                class="SVGInline-svg" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24" focusable="false">
+                                <path d="m22 8.34-9.41 9.41a.82.82 0 0 1-1.18 0L2 8.34 3.34 7 12 15.66 20.66 7z"></path>
+                            </svg></span></span></span></button>
+            <div class="dropdown-content">
+                <a href="#" id="generateTermSummary">Generate Prevailing Term Summary</a>
+                <a href="#" id="generateAmendment">Generate Amendment</a>
+                <a href="#" onclick="document.getElementById('generateButton').click();">Refresh Clause Library</a>
+                <a href="#" onclick="document.getElementById('generateButton').click();">Sync Data to Ariba</a>
+            </div>
+        </div>
+    </div>
+    <div class="subheader-row">
+        <label for="toggleContractActive">Show Inactive Contracts</label>
+        <input type="checkbox" id="toggleContractActive" onchange="toggleContracts(relatedDocuments)">
+        <label for="filterDropdown">Filter by Category:</label>
+        <select id="filterDropdown" onchange="filterDatapoints(this.value)">
+            <option value="">All</option>
+            <option value="General">General</option>
+            <option value="Legal">Legal</option>
+            <option value="Finance">Finance</option>
+        </select>
+    </div>
+    <div id="comparisonTableContainer"></div>
+    <div id="clauseContentContainer"></div>
 </div>
-<div id="comparisonTableContainer"></div>
-<div id="clauseContentContainer"></div>
-
 <script>
-    var xmlContent = '<Attributes>';
-    var workflowName = 'Prevailing Term Summary';
-
     function loadCss(file) {
         var link = document.createElement('link');
         link.href = file;
@@ -366,8 +527,19 @@
 </script>
 
 <script type="text/javascript">
+    // Replace with your DocuSign Account API ID
+    // Find it under eSign->Settings->Apps and Keys
     var docuSignaId = "9bb5a5f6-9bd2-4956-bacc-0bdc19387c91";
     var searchResults = null;
+
+    var xmlContent = '<Attributes>';
+
+    // Declare the attributesArray and contractNumber globally
+    var relatedDocuments = [];  // Assume you populate this with your data
+    var contractNumber = '';   // Your contract number
+
+    // This variable will keep track of the toggle state
+    var showInactiveContracts = "False";
 
     $("[ScmFormControl]").bind(Atlas.Forms.SCM_FORM_AFTER_DATA_LOAD, function (e) {
 
@@ -408,7 +580,6 @@
                     return { parentAttributes, relatedDocuments, contractNumber }; // Return both parentAttributes and relatedDocuments
                 })
                 .then(({ parentAttributes, relatedDocuments, contractNumber }) => {
-                    console.log('relatedandsorted', relatedDocuments);
                     var tableHtml = generateComparisonTable(relatedDocuments, contractNumber);
                     document.getElementById('comparisonTableContainer').innerHTML = tableHtml;
 
@@ -434,11 +605,59 @@
 
     var clauseContents = []; // Global variable to store clause contents
 
+    function filterDatapoints(category) {
+        // Get all rows in the comparison table
+        var comparisonRows = document.querySelectorAll('#comparisonTableContainer tr');
+
+        // Function to filter rows based on category
+        function filterRows(rows) {
+            rows.forEach(row => {
+                var dataCategory = row.getAttribute('data-category');
+
+                // If no category is selected or row doesn't have a data-category attribute, show all rows
+                if (category === "" || !dataCategory) {
+                    row.style.display = "";
+                } else {
+                    // Split the data-category attribute into an array of categories
+                    var categoriesArray = dataCategory.split(" ");
+
+                    // Check if the selected category is in the array of categories
+                    if (categoriesArray.includes(category)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                }
+            });
+        }
+
+        // Apply filter to the rows
+        filterRows(comparisonRows);
+    }
+
+
+    // Function to handle the toggle switch
+    function toggleContracts(relatedDocuments) {
+
+        console.log('Toggle switch clicked');
+        console.log('relatedDocuments:', relatedDocuments);
+        // Toggle the boolean value
+        showInactiveContracts = document.getElementById('toggleContractActive').checked ? "True" : "False";
+
+        // Re-generate the table with the current toggle state and attributesArray
+        document.getElementById('comparisonTableContainer').innerHTML = generateComparisonTable(relatedDocuments, contractNumber);
+    }
+
+    /**
+     * Fetches and filters clause content based on the provided attributes array.
+     * 
+     * @param {Array} attributesArray - The array of attributes.
+     * @returns {Promise} - A promise that resolves to the clause contents.
+     * @throws {Error} - If there is an error fetching and filtering clause content.
+     */
     function fetchAndFilterClauseContent(attributesArray) {
         attributesArray = attributesArray.Result.Items;
-        // console.log('attributesArray II', attributesArray);
         var filteredAttributes = attributesArray.filter(attributes => attributes.Extension === 'sxterm');
-        // console.log('filteredAttributes', filteredAttributes);
         var promises = filteredAttributes.map(attributes => getClauseContent(attributes.Uid));
 
         return Promise.all(promises)
@@ -446,7 +665,6 @@
                 clauseContentsArray.forEach((clauseContent, index) => {
                     clauseContents[filteredAttributes[index].DocumentID] = clauseContent;
                 });
-                console.log('clauseContents', clauseContents);
                 displayClauseContent(clauseContents);
                 return clauseContents;
             })
@@ -457,26 +675,73 @@
     }
 
     function displayClauseContent(clauseContents) {
+
+        // Sort by CommonName (ascending) and then by EffectiveDate (descending)
+        clauseContents.sort((a, b) => {
+            const commonNameA = a.Name.split('-')[0].trim();
+            const commonNameB = b.Name.split('-')[0].trim();
+            const originA = a.Name.split('-')[1]?.trim() || '';
+            const originB = b.Name.split('-')[1]?.trim() || '';
+            const dateA = a.EffectiveDate ? new Date(a.EffectiveDate.slice(0, 4), a.EffectiveDate.slice(4, 6) - 1, a.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
+            const dateB = b.EffectiveDate ? new Date(b.EffectiveDate.slice(0, 4), b.EffectiveDate.slice(4, 6) - 1, b.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
+
+            if (commonNameA < commonNameB) return -1;
+            if (commonNameA > commonNameB) return 1;
+            if (dateA > dateB) return -1;
+            if (dateA < dateB) return 1;
+            return 0;
+        });
+
         var tableHtml = '<h2 class="table-header">Clause Content</h2>';
         tableHtml += '<table>';
-        tableHtml += '<tr><th>Content</th><th>Name</th><th>Notes</th></tr>';
-        console.log('clauseContents - display', clauseContents);
-        console.log('typeof clauseContents', typeof clauseContents);
-        console.log('clauseContents.length', clauseContents.length);
+        tableHtml += '<tr><th>Name</th><th>Origin</th><th>Content</th><th>Date</th></tr>';
 
-        clauseContents.forEach(clause => {
-            console.log('clause', clause);
-            tableHtml += '<tr>';
-            tableHtml += `<td>${clause.Name}</td>`;
-            tableHtml += `<td>${clause.Content}</td>`;
-            tableHtml += `<td>${clause.Notes}</td>`;
+        clauseContents.forEach((clause, index) => {
+            const commonName = clause.Name.split('-')[0].trim();
+            const origin = clause.Name.split('-').slice(1).join('-').trim();
+
+            tableHtml += '<tr';
+            if (index === 0) {
+                tableHtml += ` style="border-bottom: 3px double black;"`;
+            }
+            tableHtml += '>';
+            if (index === 0 || commonName !== clauseContents[index - 1].Name.split('-')[0].trim()) {
+                tableHtml += `<td rowspan="${getRowCount(clauseContents, index)}">${commonName}</td>`;
+            }
+            tableHtml += `<td style="text-align: left;">${origin}</td>`;
+            tableHtml += `<td style="text-align: left;">${clause.Content}</td>`;
+            tableHtml += `<td>${formatDate(clause.EffectiveDate)}</td>`;
             tableHtml += '</tr>';
         });
 
         tableHtml += '</table>';
         document.getElementById('clauseContentContainer').innerHTML = tableHtml;
         return tableHtml;
+    }
 
+    /**
+     * Calculates the number of rows needed for a common name in the clauseContents array.
+     * 
+     * @param {Array} clauseContents - The array of clause contents.
+     * @param {number} currentIndex - The current index in the clauseContents array.
+     * @returns {number} The number of rows needed for the common name.
+     */
+    function getRowCount(clauseContents, currentIndex) {
+        let rowCount = 1;
+        var currentCommonName = clauseContents[currentIndex].Name.split('-')[0].trim();
+        var nextIndex = currentIndex + 1;
+
+        while (nextIndex < clauseContents.length) {
+            const nextCommonName = clauseContents[nextIndex].Name.split('-')[0].trim();
+            if (nextCommonName === currentCommonName) {
+                rowCount++;
+                nextIndex++;
+            } else {
+                break;
+            }
+        }
+
+        return rowCount;
     }
 
     /**
@@ -485,19 +750,33 @@
      * @returns {Promise} A promise that resolves with the JSON data containing the clause content.
      */
     function getClauseContent(documentID) {
-
         let downloadURL = "https://apidownloaduatna11.springcm.com/v2/" + docuSignaId + "/documents/" + documentID;
         return new Promise(function (resolve, reject) {
+            console.log('Fetching document content from URL:', downloadURL);
             SpringCM.API.get(downloadURL, function (_data) {
-                const jsonData = JSON.parse(_data);
+                try {
+                    const jsonData = JSON.parse(_data);
 
-                clauseContents.push({
-                    "Name": jsonData['0'].Name,
-                    "Content": jsonData['0'].Content,
-                    "Notes": jsonData['0'].Notes,
-                    "Uid": jsonData['0'].Uid
-                });
-                resolve(jsonData);
+                    getDocumentAttributes(documentID)
+                        .then(documentAttributes => {
+                            clauseContents.push({
+                                "Name": jsonData['0'].Name,
+                                "Content": jsonData['0'].Content,
+                                "Notes": jsonData['0'].Notes,
+                                "Uid": jsonData['0'].Uid,
+                                "DocId": documentAttributes.ParentDocID,
+                                "EffectiveDate": documentAttributes.EffectiveDate
+                            });
+                            resolve(jsonData);
+                        })
+                        .catch(error => {
+                            console.error('Error getting document attributes:', error);
+                            reject(error);
+                        });
+                } catch (error) {
+                    console.error('Error parsing JSON data:', error);
+                    reject(error);
+                }
             });
         });
     }
@@ -505,53 +784,64 @@
     function getDocumentAttributes(docId) {
         return new Promise(function (resolve, reject) {
             SpringCM.API.get(`/v2/${docuSignaId}/documents/${docId}?expand=AttributeGroups`, function (data) {
-                if (data.responseText) reject(data.responseText);
+                if (data.responseText) {
+                    console.error('Error in response:', data.responseText);
+                    reject(data.responseText);
+                    return;
+                }
 
-                // Assuming the object is stored in a variable called `data`
-                var parentFolderHref = data.ParentFolder.Href;
+                try {
+                    var parentFolderHref = data.ParentFolder.Href;
+                    var parentFolderId = parentFolderHref.split('/folders/')[1];
+                    var attributes = data.AttributeGroups || {};
+                    var hasCLMDocumentDetails = attributes['CLM Agreement Details'] !== undefined;
 
-                // Extract the ID after 'folders/'
-                var parentFolderId = parentFolderHref.split('/folders/')[1];
-
-                var attributes = data.AttributeGroups || {};
-                var hasCLMDocumentDetails = attributes['CLM Agreement Details'] !== undefined;
-
-                if (!hasCLMDocumentDetails) {
-                    reject('No attribute data');
-                } else {
-                    var documentAttributes = {
-                        "ParentDocID": docId,
-                        "ParentFolderID": parentFolderId,
-                        "DocumentName": attributes['CLM Agreement Details']?.['Name']?.Value || '',
-                        "Type": attributes['CLM Agreement Details']?.['Type']?.Value || '',
-                        "EffectiveDate": attributes['CLM Agreement Details']?.['Effective Date']?.Value || '',
-                        "ExpirationDate": attributes['CLM Agreement Details']?.['Expiration Date']?.Value || '',
-                        "AgreementID": attributes['CLM Agreement Details']?.['Agreement ID']?.Value || '',
-                        "PartyID": attributes['CLM Agreement Details']?.['Party ID']?.Value || '',
-                        "PartyName": attributes['CLM Agreement Details']?.['Party Name']?.Value || '',
-                        "PaymentDuration": attributes['CLM Agreement Details']?.['Payment Duration']?.Value || '',
-                        "PaymentDurationUnit": attributes['CLM Agreement Details']?.['Payment Duration Unit']?.Value || '',
-                        "PaymentLateFees": attributes['CLM Agreement Details']?.['Payment Late Fees']?.Value || '',
-                        "PaymentTerms": attributes['CLM Agreement Details']?.['Payment Terms']?.Value || '',
-                        "RenewalNoticePeriod": attributes['CLM Agreement Details']?.['Renewal Notice Period']?.Value || '',
-                        "RenewalNoticePeriodUnit": attributes['CLM Agreement Details']?.['Renewal Notice Period Unit']?.Value || '',
-                        "RenewalTerm": attributes['CLM Agreement Details']?.['Renewal Term']?.Value || '',
-                        "RenewalTermUnit": attributes['CLM Agreement Details']?.['Renewal Term Unit']?.Value || '',
-                        "Requestor": attributes['CLM Agreement Details']?.['Requestor']?.Value || '',
-                        "Signed": attributes['CLM Agreement Details']?.['Signed']?.Value || '',
-                        "TerminationCause": attributes['CLM Agreement Details']?.['Termination Cause']?.Value || '',
-                        "TerminationConvenience": attributes['CLM Agreement Details']?.['Termination Convenience']?.Value || '',
-                        "TerminationNotice": attributes['CLM Agreement Details']?.['Termination Notice']?.Value || '',
-                        "TerminationNoticeDate": attributes['CLM Agreement Details']?.['Termination Notice Date']?.Value || '',
-                        "TerminationNoticeUnit": attributes['CLM Agreement Details']?.['Termination Notice Unit']?.Value || '',
-                        "LimitationLiability": attributes['CLM Agreement Details']?.['Limitation of Liability']?.Value || '',
-                        "Value": attributes['CLM Agreement Details']?.['Value']?.Value || '',
-                        "ContractNumber": attributes['Contract Record']?.['Contract Number']?.Value || '',
-                        "ContractIsActive": attributes['Contract Record']?.['Is Active?']?.Value || '',
-                        "ContractIsParent": attributes['Contract Record']?.['Is Parent?']?.Value || '',
-                    };
+                    var documentAttributes;
+                    if (!hasCLMDocumentDetails) {
+                        documentAttributes = {
+                            "ParentDocID": docId,
+                            "ParentFolderID": parentFolderId,
+                            "DocumentName": attributes['CLM Document Details']?.['Name']?.Value || '',
+                            "EffectiveDate": attributes['CLM Document Details']?.['Effective Date']?.Value || '',
+                        };
+                    } else {
+                        documentAttributes = {
+                            "ParentDocID": docId,
+                            "ParentFolderID": parentFolderId,
+                            "DocumentName": attributes['CLM Agreement Details']?.['Name']?.Value || '',
+                            "Type": attributes['CLM Agreement Details']?.['Type']?.Value || '',
+                            "EffectiveDate": attributes['CLM Agreement Details']?.['Effective Date']?.Value || '',
+                            "ExpirationDate": attributes['CLM Agreement Details']?.['Expiration Date']?.Value || '',
+                            "AgreementID": attributes['CLM Agreement Details']?.['Agreement ID']?.Value || '',
+                            "PartyID": attributes['CLM Agreement Details']?.['Party ID']?.Value || '',
+                            "PartyName": attributes['CLM Agreement Details']?.['Party Name']?.Value || '',
+                            "PaymentDuration": attributes['CLM Agreement Details']?.['Payment Duration']?.Value || '',
+                            "PaymentDurationUnit": attributes['CLM Agreement Details']?.['Payment Duration Unit']?.Value || '',
+                            "PaymentLateFees": attributes['CLM Agreement Details']?.['Payment Late Fees']?.Value || '',
+                            "PaymentTerms": attributes['CLM Agreement Details']?.['Payment Terms']?.Value || '',
+                            "RenewalNoticePeriod": attributes['CLM Agreement Details']?.['Renewal Notice Period']?.Value || '',
+                            "RenewalNoticePeriodUnit": attributes['CLM Agreement Details']?.['Renewal Notice Period Unit']?.Value || '',
+                            "RenewalTerm": attributes['CLM Agreement Details']?.['Renewal Term']?.Value || '',
+                            "RenewalTermUnit": attributes['CLM Agreement Details']?.['Renewal Term Unit']?.Value || '',
+                            "Requestor": attributes['CLM Agreement Details']?.['Requestor']?.Value || '',
+                            "Signed": attributes['CLM Agreement Details']?.['Signed']?.Value || '',
+                            "TerminationCause": attributes['CLM Agreement Details']?.['Termination Cause']?.Value || '',
+                            "TerminationConvenience": attributes['CLM Agreement Details']?.['Termination Convenience']?.Value || '',
+                            "TerminationNotice": attributes['CLM Agreement Details']?.['Termination Notice']?.Value || '',
+                            "TerminationNoticeDate": attributes['CLM Agreement Details']?.['Termination Notice Date']?.Value || '',
+                            "TerminationNoticeUnit": attributes['CLM Agreement Details']?.['Termination Notice Unit']?.Value || '',
+                            "LimitationLiability": attributes['CLM Agreement Details']?.['Limitation of Liability']?.Value || '',
+                            "Value": attributes['CLM Agreement Details']?.['Value']?.Value || '',
+                            "ContractNumber": attributes['Contract Record']?.['Contract Number']?.Value || '',
+                            "ContractIsActive": attributes['Contract Record']?.['Is Active?']?.Value || '',
+                            "ContractIsParent": attributes['Contract Record']?.['Is Parent?']?.Value || '',
+                        };
+                    }
 
                     resolve(documentAttributes);
+                } catch (error) {
+                    console.error('Error processing attributes data:', error);
+                    reject(error);
                 }
             });
         });
@@ -575,6 +865,9 @@
         // Iterate through each item in the Items array
         data.Result.Items.forEach(item => {
             const clmDetails = item.AttributeGroups["CLM Agreement Details"];
+            const contractRecordDetails = item.AttributeGroups["Contract Record"];
+
+            console.log('Contract Record Details:', contractRecordDetails);
 
             // Check if CLM Agreement Details exists to avoid errors
             if (clmDetails) {
@@ -586,25 +879,26 @@
                     PartyID: clmDetails["Party ID"]?.Value || 'N/A',
                     Type: clmDetails.Type?.Value || 'N/A',
                     EffectiveDate: clmDetails["Effective Date"]?.Value || 'N/A',
+                    ExpirationDate: clmDetails["Expiration Date"]?.Value || 'N/A',
                     Value: clmDetails.Value?.Value || 'N/A',
                     Requestor: clmDetails.Requestor?.Value || 'N/A',
                     PaymentTerms: clmDetails["Payment Terms"]?.Value || 'N/A',
                     PaymentDuration: clmDetails["Payment Duration"]?.Value || 'N/A',
                     PaymentDurationUnit: clmDetails["Payment Duration Unit"]?.Value || 'N/A',
                     PaymentLateFees: clmDetails["Payment Late Fees"]?.Value || 'N/A',
-                    LimitationOfLiability: clmDetails["Limitation of Liability"]?.Value || 'N/A',
+                    LimitationLiability: clmDetails["Limitation of Liability"]?.Value || 'N/A',
                     Assignable: clmDetails.Assignable?.Value || 'N/A',
                     Indemnity: clmDetails.Indemnity?.Value || 'N/A',
                     TerminationCause: clmDetails["Termination Cause"]?.Value || 'N/A',
-                    TerminationConvenience: clmDetails["Termination Convenience"]?.Value || 'N/A'
+                    TerminationConvenience: clmDetails["Termination Convenience"]?.Value || 'N/A',
+                    ContractIsParent: contractRecordDetails["is Parent?"]?.Value || 'N/A',
+                    ContractIsActive: contractRecordDetails["is Active?"]?.Value || 'N/A',
                 };
 
                 // Add extracted details to the result array
                 result.push(details);
             }
         });
-
-        console.log('unsorted', result);
 
         // Sort by EffectiveDate (oldest to newest) - original format is 20230224000000
         result.sort((a, b) => {
@@ -641,7 +935,6 @@
                 } else {
                     searchResults = data;
                     const refinedData = extractAndSortAgreementDetails(data);
-                    console.log('refinedData', refinedData);
                     resolve(refinedData); // Resolve the promise on success
                 }
             });
@@ -674,9 +967,17 @@
         // Format date as MM/DD/YYYY
         return `${month}/${day}/${year}`;
     }
-
     function generateComparisonTable(attributesArray, contractNumber) {
+        console.log('Generating Comparison Table with attributesArray:', attributesArray);
         var tableHtml = `<h2 class="table-header">Term Summary Table</h2>`;
+
+        // Remove any rows where parent.Name contains "sxterm"
+        attributesArray = attributesArray.filter(parent => !parent.Name.includes("sxterm"));
+
+        // Filter agreements based on the toggle state
+        if (showInactiveContracts === "False") {
+            attributesArray = attributesArray.filter(parent => parent.ContractIsActive === "True");
+        }
 
         // Check if the array has at least one item
         if (!attributesArray || attributesArray.length === 0) {
@@ -695,6 +996,28 @@
             tableHtml += `<th>Child ${index + 1}</th>`;
         });
         tableHtml += '<th>Prevailing Terms</th></tr>';
+
+        // Define a mapping between keys and categories
+        const categoryMapping = {
+            'Name': ['General', 'Legal', 'Finance'],
+            'EffectiveDate': ['General', 'Legal', 'Finance'],
+            'ExpirationDate': ['General', 'Legal', 'Finance'],
+            'Value': ['Finance'],
+            'AgreementType': ['Legal'],
+            'Requestor': ['General'],
+            'PaymentTerms': ['Finance'],
+            'PaymentDuration': ['Finance'],
+            'PaymentDurationUnit': ['Finance'],
+            'PaymentLateFees': ['Finance'],
+            'LimitationOfLiability': ['Legal'],
+            'Assignable': ['Legal'],
+            'Indemnity': ['Legal'],
+            'TerminationCause': ['Legal'],
+            'TerminationConvenience': ['Legal'],
+            'ContractIsParent': ['General'],
+            'ContractIsActive': ['General'],
+            // Add other mappings as needed
+        };
 
         // Parse parent attributes
         var parsedParentAttributes = parseAttributes(parentAttributes);
@@ -781,7 +1104,17 @@
                 prevailingTerm = '';
             }
 
-            tableHtml += `<tr><td>${key}</td><td>${parentValue}</td>${childValues.map(value => `<td>${value}</td>`).join('')}<td>${prevailingTerm}</td></tr>`;
+            // Get the category for the current key
+            var categories = categoryMapping[key] || [];
+            var dataCategoryAttr = categories.length > 0 ? `data-category="${categories.join(' ')}"` : '';
+
+            // Wrap prevailing term in <strong> tags
+            var parentValueHtml = parentValue === prevailingTerm ? `<strong>${parentValue}</strong>` : parentValue;
+            var childValuesHtml = childValues.map(value => value === prevailingTerm ? `<strong>${value}</strong>` : value);
+            var prevailingTermHtml = `<strong>${prevailingTerm}</strong>`;
+
+            // Generate the row with the data-category attribute
+            tableHtml += `<tr ${dataCategoryAttr}><td>${key}</td><td>${parentValueHtml}</td>${childValuesHtml.map(value => `<td>${value}</td>`).join('')}<td>${prevailingTermHtml}</td></tr>`;
 
             // Add to XML content if there's content
             if (prevailingTerm) {
@@ -799,9 +1132,18 @@
         return tableHtml;
     }
 
+
     // Function to display contracts dynamically in a tree view
     function displayContracts(attributesArray) {
         const container = document.getElementById('contractDisplay');
+
+        // remove any rows were parent.Name contains "sxterm"
+        attributesArray = attributesArray.filter(parent => !parent.Name.includes("sxterm"));
+
+        console.log('Attributes Array:', attributesArray);
+
+        // update global relatedDocuments variable
+        relatedDocuments = attributesArray;
 
         // Clear existing content before adding new content
         container.innerHTML = '<h2>Contract Hierarchy</h2>';
@@ -812,21 +1154,27 @@
         const parentDiv = document.createElement('div');
         parentDiv.classList.add('contract-header');
         parentDiv.innerHTML = `
-                <div>
-                    <strong>${parent.Name}</strong> - ${parent.Type} - ${formatDate(parent.EffectiveDate)} | <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${parent.DocumentID}' target='_blank'>Link</a>
-                </div>
-                <div>
-                    ${children.length} child records
-                </div>
-            `;
+                    <div>
+                        <strong class="contract-name">${parent.Name}</strong> - ${parent.Type} - ${formatDate(parent.EffectiveDate)} | <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${parent.DocumentID}' target='_blank'>Link</a>
+                    </div>
+                    <div class="contract-record-indicator">
+                        ${children.length} child records
+                    </div>
+                `;
         container.appendChild(parentDiv);
 
         // Create the children container
         const childrenContainer = document.createElement('div');
         childrenContainer.classList.add('contract-children');
+        const iconGraphic = `<img src="https://cdn3.iconfinder.com/data/icons/seo-search-engine-optimization/64/seo_web_Search_Engine_Optimization_hierarchy_map_navigation_sitemap_orgnization_tree_site-512.png" width=16 height=16>`;
         children.forEach(child => {
             const childDiv = document.createElement('div');
-            childDiv.innerHTML = `<strong>${child.Name}</strong> - ${child.Type} - ${formatDate(child.EffectiveDate)} - <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${child.DocumentID}' target='_blank'>Link</a>  | ${child.Requestor}`;
+            childDiv.innerHTML = `
+                <strong>${child.Name}</strong> - ${child.Type} - ${formatDate(child.EffectiveDate)} - 
+                <a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${child.DocumentID}' target='_blank'>Link</a> | 
+                ${child.Requestor} | 
+                ${child.ContractIsParent === 'True' ? `<a href='https://uatna11.springcm.com/atlas/Documents/View?aid=19447&Id=${child.DocumentID}' target='_blank'>${iconGraphic}</a>` : ''}
+                `;
             childrenContainer.appendChild(childDiv);
         });
 
@@ -841,13 +1189,13 @@
     // Function to display high-level contract details that fills in contractDetails
     function displayContractDetails(parent, contractNumber) {
         // Clear existing content before adding new content
-        var contractDetailsHtml = `<h1>${contractNumber}</h1><strong>Party Name:</strong> ${parent[0].PartyName}<br/><strong>Account Owner:</strong> ${parent[0].Requestor}`;
+        var contractDetailsHtml = `<h1> ${contractNumber}</h1> <strong>Party Name:</strong> ${parent[0].PartyName} <br/> <strong>Account Owner:</strong> ${parent[0].Requestor}`;
 
         return contractDetailsHtml;
     }
 
     // Function to use XML content
-    function useXmlContent(event) {
+    function callWorkflowApi(event, endpoint) {
 
         // Prevent the default form submission behavior
         if (event) {
@@ -862,7 +1210,7 @@
         // Escape and send XML content
         var escapedXmlContent = xmlContent.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
         var body = JSON.stringify({
-            Name: workflowName,
+            Name: endpoint,
             Params: escapedXmlContent
         });
 
@@ -873,7 +1221,7 @@
                     resolve(response);
                 }
                 else if (response) {
-                    alert('Your Prevailing Terms Sheet has been created.')
+                    alert(endpoint, ' initiated.')
                 }
                 else {
                     // Log the response in case of error
@@ -888,8 +1236,14 @@
         });
 
     }
+    var workflowNamePrevailingTermSummary = 'Prevailing Term Summary';
+    var workflowNameGenerateAmendment = 'Prevailing Term Amendment';
+    
+    document.getElementById('generateTermSummary').addEventListener('click', function (event) {
+        callWorkflowApi(event, workflowNamePrevailingTermSummary);
+    });
 
-    document.getElementById('generateButton').addEventListener('click', function (event) {
-        useXmlContent(event);
+    document.getElementById('generateAmendment').addEventListener('click', function (event) {
+        callWorkflowApi(event, workflowNameGenerateAmendment);
     });
 </script>
