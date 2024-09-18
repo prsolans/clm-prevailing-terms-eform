@@ -483,11 +483,12 @@
     <div class="header-row">
         <div class="dropdown">
             <button class="dropbtn" disabled>
-                Actions 
+                Actions
                 <span style="float: right" data-qa="header-ActionsMenuName-tab-button-end" class="css-1d11tbi">
                     <span class="css-hg1vx5">
                         <span aria-hidden="true" class="SVGInline">
-                            <svg class="SVGInline-svg" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false">
+                            <svg class="SVGInline-svg" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24" focusable="false">
                                 <path d="m22 8.34-9.41 9.41a.82.82 0 0 1-1.18 0L2 8.34 3.34 7 12 15.66 20.66 7z"></path>
                             </svg>
                         </span>
@@ -497,8 +498,7 @@
             <div class="dropdown-content">
                 <a href="#" id="generateTermSummary">Generate Prevailing Term Summary</a>
                 <a href="#" id="generateAmendment">Generate Amendment</a>
-                <a href="#" onclick="document.getElementById('generateButton').click();">Refresh Clause Library</a>
-                <a href="#" onclick="document.getElementById('generateButton').click();">Sync Data to Ariba</a>
+                <!-- <a href="#" id="generateClauses">Refresh Clause Library</a> -->
             </div>
         </div>
     </div>
@@ -571,19 +571,51 @@
 </script>
 
 <script type="text/javascript">
-    // Replace with your DocuSign Account API ID
-    // Find it under eSign->Settings->Apps and Keys
-    var docuSignaId = "9bb5a5f6-9bd2-4956-bacc-0bdc19387c91";
+
+    var header = document.getElementById("globalHeader");
+    if (header != null) {
+        var dataModel = header.dataset;
+        if (dataModel != null) {
+            var model = dataModel.model;
+            if (model != null) {
+                var accountId = JSON.parse(model).accountGuid;
+                if (accountId != null) {
+                    var docuSignaId = accountId;
+                }
+            }
+        }
+    }
+
     var searchResults = null;
-
     var xmlContent = '<Attributes>';
-
-    // Declare the attributesArray and contractNumber globally
-    var relatedDocuments = [];  // Assume you populate this with your data
-    var contractNumber = '';   // Your contract number
 
     // This variable will keep track of the toggle state
     var showInactiveContracts = "False";
+
+    // Declare the relatedDocuments and contractNumber globally
+    var relatedDocuments = [];  // Assume you populate this with your data
+    var contractNumber = '';   // Your contract number
+
+    // Define the workflow names
+    var workflowNamePrevailingTermSummary = 'Prevailing Term Summary';
+    var workflowNameGenerateAmendment = 'Prevailing Term Amendment';
+    var workflowNameGenerateClauses = 'Store Clause Data';
+
+    // Add event listener for generating term summary
+    document.getElementById('generateTermSummary').addEventListener('click', function (event) {
+        callWorkflowApi(event, workflowNamePrevailingTermSummary);
+    });
+
+    // Add event listener for generating amendment
+    document.getElementById('generateAmendment').addEventListener('click', function (event) {
+        callWorkflowApi(event, workflowNameGenerateAmendment);
+    });
+
+    // Add event listener for generating clauses
+        document.getElementById('generateClauses').addEventListener('click', function (event) {
+        callWorkflowApi(event, workflowNameGenerateClauses);
+    });
+
 
     $("[ScmFormControl]").bind(Atlas.Forms.SCM_FORM_AFTER_DATA_LOAD, function (e) {
 
@@ -1038,7 +1070,7 @@
             });
         });
     }
-   
+
     /**
      * Generates a comparison table based on the provided attributes array and contract number.
      * 
@@ -1338,6 +1370,12 @@
 
     }
 
+    /**
+     * Parses the attributes of a document.
+     * 
+     * @param {Object} attributes - The attributes object to be parsed.
+     * @returns {Object} - The parsed attributes.
+     */
     function parseAttributes(attributes) {
         var parsedAttributes = {};
         for (var key in attributes) {
@@ -1349,11 +1387,23 @@
         return parsedAttributes;
     }
 
+    /**
+     * Formats a numeric value as USD currency.
+     * 
+     * @param {number|string} value - The value to be formatted.
+     * @returns {string} - The formatted currency string.
+     */
     function formatCurrency(value) {
         if (isNaN(value)) return '';
         return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
     }
 
+    /**
+     * Formats a date string in the format YYYYMMDD to MM/DD/YYYY.
+     * 
+     * @param {string} dateString - The date string to be formatted.
+     * @returns {string} - The formatted date string.
+     */
     function formatDate(dateString) {
         if (!dateString) return '';
         // Extract year, month, and day from the dateString
@@ -1364,19 +1414,5 @@
         // Format date as MM/DD/YYYY
         return `${month}/${day}/${year}`;
     }
-    
-    // Define the workflow names
-    var workflowNamePrevailingTermSummary = 'Prevailing Term Summary';
-    var workflowNameGenerateAmendment = 'Prevailing Term Amendment';
-
-    // Add event listener for generating term summary
-    document.getElementById('generateTermSummary').addEventListener('click', function (event) {
-        callWorkflowApi(event, workflowNamePrevailingTermSummary);
-    });
-
-    // Add event listener for generating amendment
-    document.getElementById('generateAmendment').addEventListener('click', function (event) {
-        callWorkflowApi(event, workflowNameGenerateAmendment);
-    });
 
 </script>
