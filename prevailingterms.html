@@ -1,5 +1,6 @@
 <!-- Include this in your HTML -->
 <style data-emotion="css-global" data-s="">
+    /* Define custom fonts */
     @font-face {
         font-display: block;
         font-family: '7_Docusign';
@@ -118,6 +119,7 @@
         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
     }
 
+    /* Apply global styles */
     * {
         box-sizing: border-box;
         font-family: DSIndigo, Helvetica, Arial, sans-serif;
@@ -144,6 +146,7 @@
     }
 </style>
 <style>
+    /* Apply custom styles to the page */
     body {
         font-family: "DS Indigo", DSIndigo, "Neue Haas Grotesk", NeueHaasGrotesk, Helvetica, Arial, sans-serif;
         margin: 0;
@@ -174,6 +177,7 @@
     #ctl00_MainContent_ContentHeader {
         display: none;
     }
+
     /* Term Summary Table */
     #comparisonTableContainer {
         max-width: 100%;
@@ -182,6 +186,7 @@
         padding: 10px;
         box-sizing: border-box;
         margin: 10px;
+        padding: 0px 60px;
     }
 
     /* Clause Content Table */
@@ -190,6 +195,7 @@
         padding: 10px;
         box-sizing: border-box;
         margin: 10px;
+        padding: 0px 60px;
     }
 
     #comparisonTableContainer table,
@@ -198,7 +204,6 @@
         border-collapse: collapse;
         font-family: Arial, sans-serif;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-        /* Add a light shadow to the bottom */
         position: relative;
         font-size: 16px;
     }
@@ -359,49 +364,35 @@
     /* Container to hold the two divs side by side */
     .row-container {
         display: flex;
-        /* Use Flexbox to arrange children side by side */
         gap: 0px;
-        /* Gap between the two divs */
         padding: 20px 10px;
-        /* Padding around the container */
         box-sizing: border-box;
-        /* Include padding in the total width */
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
-        /* Add a light shadow to the bottom */
         background-color: rgb(33, 78, 159);
-        /* Black background color */
         color: white;
-        /* White text color */
         max-width: 100%;
-        /* Set maximum width to 100% of screen size */
     }
 
     /* Contract Display takes up 2/3 of the row */
     #contractDisplay {
         flex: 2;
-        /* Takes up 2/3 of the available space */
         border-left: 3px solid white;
         padding: 15px;
-        /* Padding inside the div */
         border-radius: 0px;
-        /* Rounded corners */
     }
 
     /* Contact Details takes up 1/3 of the row */
     #contractDetails {
         flex: 1;
         max-width: 400px;
-        /* Takes up 1/3 of the available space */
-        padding: 15px;
-        /* Padding inside the div */
+        padding: 15px 60px;
         border-radius: 0px;
-        /* Rounded corners */
         font-size: large;
     }
 
     /* Add styles for the header row and drop-down menu */
     .header-row {
-        padding: 10px 20px;
+        padding: 10px 60px;
         background-color: #f8f9fa;
         border-bottom: 2px solid #dee2e6;
         float: left;
@@ -411,7 +402,7 @@
 
     .subheader-row {
         text-align: right;
-        padding: 10px;
+        padding: 10px 60px;
         border-top: 1px solid #dee2e6;
         border-bottom: 1px solid #dee2e6;
         margin-right: 10px;
@@ -455,8 +446,29 @@
         font-size: 1.1em;
         color: black;
     }
-</style>
 
+    .dropdown:hover .dropbtn {
+        border-bottom: 1px solid #6c757d;
+    }
+
+    /* Footer styles */
+    .footer {
+        background-color: #f8f9fa;
+        padding: 10px 60px;
+        text-align: right;
+        border-top: 1px solid #dee2e6;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .footer p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 9px;
+    }
+</style>
 
 <div class="big-container">
     <!-- Main container to hold both contract display and contact details -->
@@ -470,15 +482,22 @@
             <!-- Contract display content will be dynamically added here -->
         </div>
     </div>
+
     <!-- Header row with drop-down menu -->
     <div class="header-row">
         <div class="dropdown">
-            <button class="dropbtn" disabled>Actions <span style="float: right"
-                    data-qa="header-ActionsMenuName-tab-button-end" class="css-1d11tbi"><span class="css-hg1vx5"><span
-                            aria-hidden="true" class="SVGInline"><svg class="SVGInline-svg" fill="currentColor"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false">
+            <button class="dropbtn" disabled>
+                Actions 
+                <span style="float: right" data-qa="header-ActionsMenuName-tab-button-end" class="css-1d11tbi">
+                    <span class="css-hg1vx5">
+                        <span aria-hidden="true" class="SVGInline">
+                            <svg class="SVGInline-svg" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false">
                                 <path d="m22 8.34-9.41 9.41a.82.82 0 0 1-1.18 0L2 8.34 3.34 7 12 15.66 20.66 7z"></path>
-                            </svg></span></span></span></button>
+                            </svg>
+                        </span>
+                    </span>
+                </span>
+            </button>
             <div class="dropdown-content">
                 <a href="#" id="generateTermSummary">Generate Prevailing Term Summary</a>
                 <a href="#" id="generateAmendment">Generate Amendment</a>
@@ -487,11 +506,11 @@
             </div>
         </div>
     </div>
+
+    <!-- Subheader with toggle and filter dropdown -->
     <div class="subheader-row">
         <label for="toggleContractActive">Show Inactive Contracts</label>
         <input type="checkbox" id="toggleContractActive" onchange="toggleContracts(relatedDocuments)">
-        <!-- <label for="toggleParentPrevailing">Show Only Parent and Prevailing</label>
-        <input type="checkbox" id="toggleParentPrevailing" onchange="toggleContractComparison(relatedDocuments)"> -->
         <label for="filterDropdown">Filter by Category:</label>
         <select id="filterDropdown" onchange="filterDatapoints(this.value)">
             <option value="">All</option>
@@ -500,10 +519,27 @@
             <option value="Finance">Finance</option>
         </select>
     </div>
-    <div id="comparisonTableContainer"></div>
-    <div id="clauseContentContainer"></div>
+
+    <!-- Term Summary Table -->
+    <div id="comparisonTableContainer">
+        <!-- Term summary table content will be dynamically added here -->
+    </div>
+
+    <!-- Clause Content Table -->
+    <div id="clauseContentContainer">
+        <!-- Clause content table will be dynamically added here -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Version 0.8.091824</p>
+    </footer>
 </div>
 <script>
+    // This script is responsible for loading CSS files and extracting URL parameters.
+    // It defines two functions: loadCss and extractURLParameter.
+
+    // Function to load CSS file dynamically
     function loadCss(file) {
         var link = document.createElement('link');
         link.href = file;
@@ -512,15 +548,18 @@
         document.querySelector('head').appendChild(link);
     }
 
+    // Function to extract URL parameter value
     function extractURLParameter(url, name) {
         return (RegExp(name + '=' + '(.+?)(&|$)').exec(url) || [, null])[1];
     };
 
+    // Get the referrer URL and decode the URL parameters
     var url = document.referrer;
     var aId = decodeURIComponent(extractURLParameter(url, 'aid').replace(/\+/g, " "));
     var docId = decodeURIComponent(extractURLParameter(url, 'Id').replace(/\+/g, " "));
     var env = document.location.href.split("https://")[1].split('.')[0];
 
+    // Load necessary CSS files
     loadCss('https://ux.springcm.com/ux/releases/0.10.5/css/SpringCM.UX.min.css');
     loadCss('https://ux.springcm.com/ux/releases/0.10.5/css/Atlas.Forms.min.css');
     loadCss(`https://${env}.springcm.com/atlas/ThemeCss?aid=${aId}`);
@@ -531,7 +570,8 @@
 </script>
 <script src='https://ux.springcm.com/ux/releases/0.10.5/js/SpringCM.UX.min.js'></script>
 <script>
-    jqueryUX = jQuery.noConflict(true);
+    // Use jQuery in noConflict mode
+    var jqueryUX = jQuery.noConflict(true);
 </script>
 
 <script type="text/javascript">
@@ -611,8 +651,14 @@
         }
     });
 
-    var clauseContents = []; // Global variable to store clause contents
+    // Global variable to store clause contents
+    var clauseContents = [];
 
+    /**
+     * Filters the datapoints in the comparison table based on the selected category.
+     * 
+     * @param {string} category - The selected category.
+     */
     function filterDatapoints(category) {
         // Get all rows in the comparison table
         var comparisonRows = document.querySelectorAll('#comparisonTableContainer tr');
@@ -643,12 +689,15 @@
         filterRows(comparisonRows);
     }
 
-
-    // Function to handle the toggle switch
+    /**
+     * Toggles the contract comparison based on the selected toggle state.
+     * 
+     * @param {Array} relatedDocuments - The array of related documents.
+     */
     function toggleContractComparison(relatedDocuments) {
-
         console.log('Toggle switch clicked');
         console.log('relatedDocuments:', relatedDocuments);
+
         // Toggle the boolean value
         show = document.getElementById('toggleContractActive').checked ? "True" : "False";
 
@@ -656,11 +705,15 @@
         document.getElementById('comparisonTableContainer').innerHTML = generateComparisonTable(relatedDocuments, contractNumber);
     }
 
-    // Function to handle the toggle switch
+    /**
+     * Toggles the contracts based on the selected toggle state.
+     * 
+     * @param {Array} relatedDocuments - The array of related documents.
+     */
     function toggleContracts(relatedDocuments) {
-
         console.log('Toggle switch clicked');
         console.log('relatedDocuments:', relatedDocuments);
+
         // Toggle the boolean value
         showInactiveContracts = document.getElementById('toggleContractActive').checked ? "True" : "False";
 
@@ -692,51 +745,6 @@
                 console.error('Error fetching and filtering clause content:', error);
                 throw error;
             });
-    }
-
-    function displayClauseContent(clauseContents) {
-
-        // Sort by CommonName (ascending) and then by EffectiveDate (descending)
-        clauseContents.sort((a, b) => {
-            const commonNameA = a.Name.split('-')[0].trim();
-            const commonNameB = b.Name.split('-')[0].trim();
-            const originA = a.Name.split('-')[1]?.trim() || '';
-            const originB = b.Name.split('-')[1]?.trim() || '';
-            const dateA = a.EffectiveDate ? new Date(a.EffectiveDate.slice(0, 4), a.EffectiveDate.slice(4, 6) - 1, a.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
-            const dateB = b.EffectiveDate ? new Date(b.EffectiveDate.slice(0, 4), b.EffectiveDate.slice(4, 6) - 1, b.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
-
-            if (commonNameA < commonNameB) return -1;
-            if (commonNameA > commonNameB) return 1;
-            if (dateA > dateB) return -1;
-            if (dateA < dateB) return 1;
-            return 0;
-        });
-
-        var tableHtml = '<h2 class="table-header">Clause Content</h2>';
-        tableHtml += '<table>';
-        tableHtml += '<tr><th>Name</th><th>Origin</th><th>Content</th><th>Date</th></tr>';
-
-        clauseContents.forEach((clause, index) => {
-            const commonName = clause.Name.split('-')[0].trim();
-            const origin = clause.Name.split('-').slice(1).join('-').trim();
-
-            tableHtml += '<tr';
-            if (index === 0) {
-                tableHtml += ` style="border-bottom: 3px double black;"`;
-            }
-            tableHtml += '>';
-            if (index === 0 || commonName !== clauseContents[index - 1].Name.split('-')[0].trim()) {
-                tableHtml += `<td rowspan="${getRowCount(clauseContents, index)}">${commonName}</td>`;
-            }
-            tableHtml += `<td style="text-align: left;">${origin}</td>`;
-            tableHtml += `<td style="text-align: left;">${clause.Content}</td>`;
-            tableHtml += `<td>${formatDate(clause.EffectiveDate)}</td>`;
-            tableHtml += '</tr>';
-        });
-
-        tableHtml += '</table>';
-        document.getElementById('clauseContentContainer').innerHTML = tableHtml;
-        return tableHtml;
     }
 
     /**
@@ -801,6 +809,123 @@
         });
     }
 
+    /**
+     * Fetches the related documents for a given contract number.
+     * 
+     * @param {string} contractNumber - The contract number.
+     * @returns {Promise} - A promise that resolves to the list of related documents.
+     * @throws {Error} - If there is an error fetching the related documents.
+     */
+    function fetchRelatedDocuments(contractNumber) {
+        return getAllDocumentIds(contractNumber)
+            .then(relatedDocuments => {
+                // Do any additional processing if needed
+                return relatedDocuments; // Return the list of related documents
+            })
+            .catch(error => {
+                console.error('Error fetching related documents:', error);
+                throw error; // Propagate the error for handling in the outer promise chain
+            });
+    }
+
+    /**
+     * Extracts and sorts agreement details from the provided data.
+     * 
+     * @param {Object} data - The data containing agreement details.
+     * @returns {Array} - The sorted array of agreement details.
+     */
+    function extractAndSortAgreementDetails(data) {
+        const result = [];
+
+        // Iterate through each item in the Items array
+        data.Result.Items.forEach(item => {
+            const clmDetails = item.AttributeGroups["CLM Agreement Details"];
+            const contractRecordDetails = item.AttributeGroups["Contract Record"];
+
+            console.log('Contract Record Details:', contractRecordDetails);
+
+            // Check if CLM Agreement Details exists to avoid errors
+            if (clmDetails) {
+                // Extract specific details from CLM Agreement Details
+                const details = {
+                    DocumentID: item["Uid"], // Add DocumentID
+                    Name: clmDetails.Name?.Value || 'N/A',
+                    PartyName: clmDetails["Party Name"]?.Value || 'N/A',
+                    PartyID: clmDetails["Party ID"]?.Value || 'N/A',
+                    Type: clmDetails.Type?.Value || 'N/A',
+                    EffectiveDate: clmDetails["Effective Date"]?.Value || 'N/A',
+                    ExpirationDate: clmDetails["Expiration Date"]?.Value || 'N/A',
+                    Value: clmDetails.Value?.Value || 'N/A',
+                    Requestor: clmDetails.Requestor?.Value || 'N/A',
+                    PaymentTerms: clmDetails["Payment Terms"]?.Value || 'N/A',
+                    PaymentDuration: clmDetails["Payment Duration"]?.Value || 'N/A',
+                    PaymentDurationUnit: clmDetails["Payment Duration Unit"]?.Value || 'N/A',
+                    PaymentLateFees: clmDetails["Payment Late Fees"]?.Value || 'N/A',
+                    LimitationLiability: clmDetails["Limitation of Liability"]?.Value || 'N/A',
+                    Assignable: clmDetails.Assignable?.Value || 'N/A',
+                    Indemnity: clmDetails.Indemnity?.Value || 'N/A',
+                    TerminationCause: clmDetails["Termination Cause"]?.Value || 'N/A',
+                    TerminationConvenience: clmDetails["Termination Convenience"]?.Value || 'N/A',
+                    ContractIsParent: contractRecordDetails["is Parent?"]?.Value || 'N/A',
+                    ContractIsActive: contractRecordDetails["is Active?"]?.Value || 'N/A',
+                };
+
+                // Add extracted details to the result array
+                result.push(details);
+            }
+        });
+
+        // Sort by EffectiveDate (oldest to newest) - original format is 20230224000000
+        result.sort((a, b) => {
+            const dateA = a.EffectiveDate ? new Date(a.EffectiveDate.slice(0, 4), a.EffectiveDate.slice(4, 6) - 1, a.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
+            const dateB = b.EffectiveDate ? new Date(b.EffectiveDate.slice(0, 4), b.EffectiveDate.slice(4, 6) - 1, b.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
+
+            if (isNaN(dateA)) return 1; // Treat invalid dateA as greater
+            if (isNaN(dateB)) return -1; // Treat invalid dateB as greater
+
+            return dateA - dateB;
+        });
+
+        return result;
+    }
+
+    /**
+     * Retrieves all document IDs associated with a given contract number.
+     * 
+     * @param {string} contractNumber - The contract number.
+     * @returns {Promise} - A promise that resolves to an array of document IDs.
+     */
+    function getAllDocumentIds(contractNumber) {
+        return new Promise(function (resolve, reject) {
+            const payload = {
+                "AttributeFields": [
+                    {
+                        "Group": "Contract Record",
+                        "Field": "Contract Number",
+                        "Value": contractNumber
+                    }
+                ]
+            };
+
+            SpringCM.API.post(`/v2/${docuSignaId}/documentsearchtasks/?expand=AttributeGroups`, payload, (data) => {
+                if (data.responseText) {
+                    reject(data.responseText);
+                } else {
+                    searchResults = data;
+                    const refinedData = extractAndSortAgreementDetails(data);
+                    resolve(refinedData);
+                }
+            });
+        });
+    }
+
+    /**
+     * Retrieves the attributes of a document based on its ID.
+     * 
+     * @param {string} docId - The ID of the document.
+     * @returns {Promise} - A promise that resolves to the document attributes.
+     * @throws {Error} - If there is an error retrieving the document attributes.
+     */
     function getDocumentAttributes(docId) {
         return new Promise(function (resolve, reject) {
             SpringCM.API.get(`/v2/${docuSignaId}/documents/${docId}?expand=AttributeGroups`, function (data) {
@@ -866,101 +991,14 @@
             });
         });
     }
-
-    function fetchRelatedDocuments(contractNumber) {
-        return getAllDocumentIds(contractNumber)
-            .then(relatedDocuments => {
-                // Do any additional processing if needed
-                return relatedDocuments; // Return the list of related documents
-            })
-            .catch(error => {
-                console.error('Error fetching related documents:', error);
-                throw error; // Propagate the error for handling in the outer promise chain
-            });
-    }
-
-    function extractAndSortAgreementDetails(data) {
-        const result = [];
-
-        // Iterate through each item in the Items array
-        data.Result.Items.forEach(item => {
-            const clmDetails = item.AttributeGroups["CLM Agreement Details"];
-            const contractRecordDetails = item.AttributeGroups["Contract Record"];
-
-            console.log('Contract Record Details:', contractRecordDetails);
-
-            // Check if CLM Agreement Details exists to avoid errors
-            if (clmDetails) {
-                // Extract specific details from CLM Agreement Details
-                const details = {
-                    DocumentID: item["Uid"], // Add DocumentID
-                    Name: clmDetails.Name?.Value || 'N/A',
-                    PartyName: clmDetails["Party Name"]?.Value || 'N/A',
-                    PartyID: clmDetails["Party ID"]?.Value || 'N/A',
-                    Type: clmDetails.Type?.Value || 'N/A',
-                    EffectiveDate: clmDetails["Effective Date"]?.Value || 'N/A',
-                    ExpirationDate: clmDetails["Expiration Date"]?.Value || 'N/A',
-                    Value: clmDetails.Value?.Value || 'N/A',
-                    Requestor: clmDetails.Requestor?.Value || 'N/A',
-                    PaymentTerms: clmDetails["Payment Terms"]?.Value || 'N/A',
-                    PaymentDuration: clmDetails["Payment Duration"]?.Value || 'N/A',
-                    PaymentDurationUnit: clmDetails["Payment Duration Unit"]?.Value || 'N/A',
-                    PaymentLateFees: clmDetails["Payment Late Fees"]?.Value || 'N/A',
-                    LimitationLiability: clmDetails["Limitation of Liability"]?.Value || 'N/A',
-                    Assignable: clmDetails.Assignable?.Value || 'N/A',
-                    Indemnity: clmDetails.Indemnity?.Value || 'N/A',
-                    TerminationCause: clmDetails["Termination Cause"]?.Value || 'N/A',
-                    TerminationConvenience: clmDetails["Termination Convenience"]?.Value || 'N/A',
-                    ContractIsParent: contractRecordDetails["is Parent?"]?.Value || 'N/A',
-                    ContractIsActive: contractRecordDetails["is Active?"]?.Value || 'N/A',
-                };
-
-                // Add extracted details to the result array
-                result.push(details);
-            }
-        });
-
-        // Sort by EffectiveDate (oldest to newest) - original format is 20230224000000
-        result.sort((a, b) => {
-            const dateA = a.EffectiveDate ? new Date(a.EffectiveDate.slice(0, 4), a.EffectiveDate.slice(4, 6) - 1, a.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
-            const dateB = b.EffectiveDate ? new Date(b.EffectiveDate.slice(0, 4), b.EffectiveDate.slice(4, 6) - 1, b.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
-
-            if (isNaN(dateA)) return 1; // Treat invalid dateA as greater
-            if (isNaN(dateB)) return -1; // Treat invalid dateB as greater
-
-            return dateA - dateB;
-        });
-
-        return result;
-    }
-
-    function getAllDocumentIds(contractNumber) {
-        // Return a single Promise
-        return new Promise(function (resolve, reject) {
-            // Define the payload with the contract number
-            const payload = {
-                "AttributeFields": [
-                    {
-                        "Group": "Contract Record",
-                        "Field": "Contract Number",
-                        "Value": contractNumber // Use the input contract number
-                    }
-                ]
-            };
-
-            // Send the POST request with the payload
-            SpringCM.API.post(`/v2/${docuSignaId}/documentsearchtasks/?expand=AttributeGroups`, payload, (data) => {
-                if (data.responseText) {
-                    reject(data.responseText); // Reject the promise on error
-                } else {
-                    searchResults = data;
-                    const refinedData = extractAndSortAgreementDetails(data);
-                    resolve(refinedData); // Resolve the promise on success
-                }
-            });
-        });
-    }
-
+   
+    /**
+     * Generates a comparison table based on the provided attributes array and contract number.
+     * 
+     * @param {Array} attributesArray - An array of contract attributes.
+     * @param {string} contractNumber - The contract number.
+     * @returns {string} - The HTML content of the comparison table.
+     */
     function generateComparisonTable(attributesArray, contractNumber) {
         console.log('Generating Comparison Table with attributesArray:', attributesArray);
         var tableHtml = `<h2 class="table-header">Term Summary Table</h2>`;
@@ -1129,8 +1167,11 @@
         return tableHtml;
     }
 
-
-    // Function to display contracts dynamically in a tree view
+    /**
+     * Function to display contracts dynamically in a tree view.
+     * 
+     * @param {Array} attributesArray - An array of contract attributes.
+     */
     function displayContracts(attributesArray) {
         const container = document.getElementById('contractDisplay');
 
@@ -1186,7 +1227,13 @@
         });
     }
 
-    // Function to display high-level contract details that fills in contractDetails
+    /**
+     * Displays contract details.
+     * 
+     * @param {HTMLElement} parent - The parent element where the contract details will be displayed.
+     * @param {string} contractNumber - The contract number to be displayed.
+     * @returns {string} - The HTML content of the contract details.
+     */
     function displayContractDetails(parent, contractNumber) {
         // Clear existing content before adding new content
         var contractDetailsHtml = `<h1> ${contractNumber}</h1> <strong>Party Name:</strong> ${parent[0].PartyName} <br/> <strong>Account Owner:</strong> ${parent[0].Requestor}`;
@@ -1194,7 +1241,14 @@
         return contractDetailsHtml;
     }
 
-    // Function to use XML content
+    /**
+     * Function to call the Workflow API.
+     * 
+     * @param {Event} event - The event object.
+     * @param {string} endpoint - The endpoint to call.
+     * @returns {Promise} - A promise that resolves with the response from the API call.
+     * @throws {Error} - If xmlContent is not a string.
+     */
     function callWorkflowApi(event, endpoint) {
 
         // Prevent the default form submission behavior
@@ -1237,7 +1291,6 @@
 
     }
 
-
     function parseAttributes(attributes) {
         var parsedAttributes = {};
         for (var key in attributes) {
@@ -1264,15 +1317,19 @@
         // Format date as MM/DD/YYYY
         return `${month}/${day}/${year}`;
     }
-
+    
+    // Define the workflow names
     var workflowNamePrevailingTermSummary = 'Prevailing Term Summary';
     var workflowNameGenerateAmendment = 'Prevailing Term Amendment';
 
+    // Add event listener for generating term summary
     document.getElementById('generateTermSummary').addEventListener('click', function (event) {
         callWorkflowApi(event, workflowNamePrevailingTermSummary);
     });
 
+    // Add event listener for generating amendment
     document.getElementById('generateAmendment').addEventListener('click', function (event) {
         callWorkflowApi(event, workflowNameGenerateAmendment);
     });
+
 </script>
