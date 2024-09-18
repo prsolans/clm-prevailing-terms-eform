@@ -447,10 +447,6 @@
         color: black;
     }
 
-    .dropdown:hover .dropbtn {
-        border-bottom: 1px solid #6c757d;
-    }
-
     /* Footer styles */
     .footer {
         background-color: #f8f9fa;
@@ -745,6 +741,57 @@
                 console.error('Error fetching and filtering clause content:', error);
                 throw error;
             });
+    }
+
+
+    /**
+     * Function to display clause content.
+     * 
+     * @param {Array} clauseContents - The array of clause contents to be displayed.
+     * @returns {string} - The generated HTML table containing the clause content.
+     */
+    function displayClauseContent(clauseContents) {
+        // Sort by CommonName (ascending) and then by EffectiveDate (descending)
+        clauseContents.sort((a, b) => {
+            const commonNameA = a.Name.split('-')[0].trim();
+            const commonNameB = b.Name.split('-')[0].trim();
+            const originA = a.Name.split('-')[1]?.trim() || '';
+            const originB = b.Name.split('-')[1]?.trim() || '';
+            const dateA = a.EffectiveDate ? new Date(a.EffectiveDate.slice(0, 4), a.EffectiveDate.slice(4, 6) - 1, a.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
+            const dateB = b.EffectiveDate ? new Date(b.EffectiveDate.slice(0, 4), b.EffectiveDate.slice(4, 6) - 1, b.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
+
+            if (commonNameA < commonNameB) return -1;
+            if (commonNameA > commonNameB) return 1;
+            if (dateA > dateB) return -1;
+            if (dateA < dateB) return 1;
+            return 0;
+        });
+
+        var tableHtml = '<h2 class="table-header">Clause Content</h2>';
+        tableHtml += '<table>';
+        tableHtml += '<tr><th>Name</th><th>Origin</th><th>Content</th><th>Date</th></tr>';
+
+        clauseContents.forEach((clause, index) => {
+            const commonName = clause.Name.split('-')[0].trim();
+            const origin = clause.Name.split('-').slice(1).join('-').trim();
+
+            tableHtml += '<tr';
+            if (index === 0) {
+                tableHtml += ` style="border-bottom: 3px double black;"`;
+            }
+            tableHtml += '>';
+            if (index === 0 || commonName !== clauseContents[index - 1].Name.split('-')[0].trim()) {
+                tableHtml += `<td rowspan="${getRowCount(clauseContents, index)}">${commonName}</td>`;
+            }
+            tableHtml += `<td style="text-align: left;">${origin}</td>`;
+            tableHtml += `<td style="text-align: left;">${clause.Content}</td>`;
+            tableHtml += `<td>${formatDate(clause.EffectiveDate)}</td>`;
+            tableHtml += '</tr>';
+        });
+
+        tableHtml += '</table>';
+        document.getElementById('clauseContentContainer').innerHTML = tableHtml;
+        return tableHtml;
     }
 
     /**
