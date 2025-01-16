@@ -63,9 +63,11 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>Version 0.8.091824</p>
+        <p>Version 0.9.011625</p>
     </footer>
 </div>
+
+
 <script>
     // This script is responsible for loading CSS files and extracting URL parameters.
     // It defines two functions: loadCss and extractURLParameter.
@@ -106,11 +108,22 @@
 </script>
 
 <script type="text/javascript">
-    // Replace with your DocuSign Account API ID
-    // Find it under eSign->Settings->Apps and Keys
-    var docuSignaId = "9bb5a5f6-9bd2-4956-bacc-0bdc19387c91";
-    var searchResults = null;
 
+var header = document.getElementById("globalHeader");
+    if (header != null) {
+        var dataModel = header.dataset;
+        if (dataModel != null) {
+            var model = dataModel.model;
+            if (model != null) {
+                var accountId = JSON.parse(model).accountGuid;
+                if (accountId != null) {
+                    var docuSignaId = accountId;
+                }
+            }
+        }
+    }
+
+    var searchResults = null;
     var xmlContent = '<Attributes>';
 
     // Declare the attributesArray and contractNumber globally
