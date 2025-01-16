@@ -1,470 +1,4 @@
-<!-- Include this in your HTML -->
-<style data-emotion="css-global" data-s="">
-    /* Define custom fonts */
-    @font-face {
-        font-display: block;
-        font-family: '7_Docusign';
-        font-style: normal;
-        font-weight: 400;
-        src: url('https://www.docusign.com/assets/fonts/7_Docusign.woff') format('woff');
-    }
-
-    @font-face {
-        font-display: block;
-        font-family: 'DSIndigo';
-        font-style: normal;
-        font-weight: 300;
-        src: url('https://www.docusign.com/assets/fonts/dsindigo-light.woff2') format('woff2'), url('https://www.docusign.com/assets/fonts/dsindigo-light.woff') format('woff');
-    }
-
-    @font-face {
-        font-display: block;
-        font-family: 'DSIndigo';
-        font-style: italic;
-        font-weight: 300;
-        src: url('https://www.docusign.com/assets/fonts/dsindigo-lightitalic.woff2') format('woff2'), url('https://www.docusign.com/assets/fonts/dsindigo-lightitalic.woff') format('woff');
-    }
-
-    @font-face {
-        font-display: block;
-        font-family: 'DSIndigo';
-        font-style: normal;
-        font-weight: 400;
-        src: url('https://www.docusign.com/assets/fonts/dsindigo-regular.woff2') format('woff2'), url('https://www.docusign.com/assets/fonts/dsindigo-regular.woff') format('woff');
-    }
-
-    @font-face {
-        font-display: block;
-        font-family: 'DSIndigo';
-        font-style: normal;
-        font-weight: 500;
-        src: url('https://www.docusign.com/assets/fonts/dsindigo-medium.woff2') format('woff2'), url('https://www.docusign.com/assets/fonts/dsindigo-medium.woff') format('woff');
-    }
-
-    @font-face {
-        font-display: block;
-        font-family: 'DSIndigo';
-        font-style: normal;
-        font-weight: 600;
-        src: url('https://www.docusign.com/assets/fonts/dsindigo-semibold.woff2') format('woff2'), url('https://www.docusign.com/assets/fonts/dsindigo-semibold.woff') format('woff');
-    }
-
-    @font-face {
-        font-family: 'Noto Sans Mono';
-        font-style: normal;
-        font-weight: 400;
-        font-stretch: 100%;
-        font-display: swap;
-        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ09DdVWYVP8c9MMEL.woff2) format('woff2');
-        unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-    }
-
-    @font-face {
-        font-family: 'Noto Sans Mono';
-        font-style: normal;
-        font-weight: 400;
-        font-stretch: 100%;
-        font-display: swap;
-        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ09ndVWYVP8c9MMEL.woff2) format('woff2');
-        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-    }
-
-    @font-face {
-        font-family: 'Noto Sans Mono';
-        font-style: normal;
-        font-weight: 400;
-        font-stretch: 100%;
-        font-display: swap;
-        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ09HdVWYVP8c9MMEL.woff2) format('woff2');
-        unicode-range: U+1F00-1FFF;
-    }
-
-    @font-face {
-        font-family: 'Noto Sans Mono';
-        font-style: normal;
-        font-weight: 400;
-        font-stretch: 100%;
-        font-display: swap;
-        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ097dVWYVP8c9MMEL.woff2) format('woff2');
-        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
-    }
-
-    @font-face {
-        font-family: 'Noto Sans Mono';
-        font-style: normal;
-        font-weight: 400;
-        font-stretch: 100%;
-        font-display: swap;
-        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ09LdVWYVP8c9MMEL.woff2) format('woff2');
-        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-    }
-
-    @font-face {
-        font-family: 'Noto Sans Mono';
-        font-style: normal;
-        font-weight: 400;
-        font-stretch: 100%;
-        font-display: swap;
-        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ09PdVWYVP8c9MMEL.woff2) format('woff2');
-        unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-    }
-
-    @font-face {
-        font-family: 'Noto Sans Mono';
-        font-style: normal;
-        font-weight: 400;
-        font-stretch: 100%;
-        font-display: swap;
-        src: url(https://fonts.gstatic.com/s/notosansmono/v30/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ093dVWYVP8c9MA.woff2) format('woff2');
-        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-    }
-
-    /* Apply global styles */
-    * {
-        box-sizing: border-box;
-        font-family: DSIndigo, Helvetica, Arial, sans-serif;
-    }
-
-    p {
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.5;
-    }
-
-    sup {
-        font-size: 0.8em;
-        line-height: 1;
-    }
-
-    html,
-    body {
-        background: #ffffff;
-        color: #130032;
-        font-weight: 400;
-        margin: 0;
-        scroll-padding-top: 8rem;
-    }
-</style>
-<style>
-    /* Apply custom styles to the page */
-    body {
-        font-family: "DS Indigo", DSIndigo, "Neue Haas Grotesk", NeueHaasGrotesk, Helvetica, Arial, sans-serif;
-        margin: 0;
-        overflow-x: hidden;
-    }
-
-    h1 {
-        color: white;
-        font-size: 2.4rem;
-        margin-bottom: 10px;
-    }
-
-    h2 {
-        padding-bottom: 10px;
-        color: white;
-    }
-
-    h2.table-header {
-        padding: 5px;
-        color: #6c757d;
-    }
-
-    .big-container {
-        max-width: 110%;
-        margin: -40px;
-    }
-
-    #ctl00_MainContent_ContentHeader {
-        display: none;
-    }
-
-    /* Term Summary Table */
-    #comparisonTableContainer {
-        max-width: 100%;
-        overflow-x: auto;
-        white-space: normal;
-        padding: 10px;
-        box-sizing: border-box;
-        margin: 10px;
-        padding: 0px 60px;
-    }
-
-    /* Clause Content Table */
-    #clauseContentContainer {
-        max-width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-        margin: 10px;
-        padding: 0px 60px;
-    }
-
-    #comparisonTableContainer table,
-    #clauseContentContainer table {
-        width: 100%;
-        border-collapse: collapse;
-        font-family: Arial, sans-serif;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-        position: relative;
-        font-size: 16px;
-    }
-
-    #comparisonTableContainer th,
-    #comparisonTableContainer td,
-    #clauseContentContainer th,
-    #clauseContentContainer td {
-        border: 1px solid #dddddd;
-        text-align: center;
-        padding: 8px;
-    }
-
-    #comparisonTableContainer th:first-child,
-    #comparisonTableContainer td:first-child,
-    #clauseContentContainer th:first-child,
-    #clauseContentContainer td:first-child {
-        text-align: left;
-        position: sticky;
-        width: 200px;
-    }
-
-    #comparisonTableContainer th,
-    #clauseContentContainer th {
-        background-color: #f4f4f4;
-        font-family: "DS Indigo", DSIndigo, Helvetica, Arial, sans-serif;
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 1.5;
-        letter-spacing: 0.8px;
-        -webkit-box-align: center;
-        align-items: center;
-        background: 0px 0px;
-        border: none;
-        border-radius: 0px;
-        color: inherit;
-        cursor: pointer;
-        margin: 0px;
-        padding: 8px;
-        text-transform: inherit;
-        white-space: nowrap;
-    }
-
-    /* #comparisonTableContainer tr:nth-child(even),
-        #clauseContentContainer tr:nth-child(even) {
-            background-color: #f9f9f9;
-        } */
-
-    #comparisonTableContainer tr:hover,
-    #clauseContentContainer tr:hover {
-        background-color: #f1f1f1;
-    }
-
-    #comparisonTableContainer th,
-    #comparisonTableContainer td,
-    #clauseContentContainer th,
-    #clauseContentContainer td {
-        border-left: 0;
-        border-right: 0;
-    }
-
-    #comparisonTableContainer th,
-    #clauseContentContainer th {
-        background-color: rgb(246, 242, 255);
-    }
-
-    /* Highlight the rightmost column */
-    #comparisonTableContainer td:last-child,
-    #clauseContentContainer td:last-child {
-        border-left: 1px solid rgb(224, 212, 255);
-    }
-
-    #comparisonTableContainer th:last-child,
-    #clauseContentContainer th:last-child {
-        background-color: rgb(224, 212, 255);
-        /* Darker orange for header */
-        color: black;
-        /* White text for header */
-        border: 3px solid rgb(224, 212, 255);
-    }
-
-    /* Basic styling for the contract display */
-    .contract-container {
-        font-family: Arial, sans-serif;
-        margin: 0px;
-    }
-
-    .contract-header {
-        background-color: #e0e0e0;
-        color: #6c757d;
-        padding: 10px;
-        border-radius: 3px;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: larger;
-        max-width: 800px;
-
-    }
-
-    .contract-header .contract-name {
-        color: black;
-    }
-
-    .contract-children,
-    .child-record {
-        padding: 10px;
-        display: none;
-    }
-
-    .contract-children.expanded {
-        display: block;
-        background-color: white;
-        color: black;
-        border-radius: 3px;
-        margin-top: 5px;
-        max-width: 800px;
-    }
-
-    .child-record {
-        border-top: 1px solid #ddd;
-    }
-
-    .record-type {
-        font-size: 0.9em;
-        color: #6c757d;
-    }
-
-    .child-record-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-    }
-
-    .child-record-header:hover {
-        background-color: #f0f0f0;
-    }
-
-    .collapse-icon {
-        transform: rotate(90deg);
-        transition: transform 0.3s;
-    }
-
-    .expanded .collapse-icon {
-        transform: rotate(0deg);
-    }
-
-    .child-record-content {
-        display: none;
-    }
-
-    .expanded .child-record-content {
-        display: block;
-    }
-
-    /* Container to hold the two divs side by side */
-    .row-container {
-        display: flex;
-        gap: 0px;
-        padding: 20px 10px;
-        box-sizing: border-box;
-        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
-        background-color: rgb(33, 78, 159);
-        color: white;
-        max-width: 100%;
-    }
-
-    /* Contract Display takes up 2/3 of the row */
-    #contractDisplay {
-        flex: 2;
-        border-left: 3px solid white;
-        padding: 15px;
-        border-radius: 0px;
-    }
-
-    /* Contact Details takes up 1/3 of the row */
-    #contractDetails {
-        flex: 1;
-        max-width: 400px;
-        padding: 15px 60px;
-        border-radius: 0px;
-        font-size: large;
-    }
-
-    /* Add styles for the header row and drop-down menu */
-    .header-row {
-        padding: 10px 60px;
-        background-color: #f8f9fa;
-        border-bottom: 2px solid #dee2e6;
-        float: left;
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .subheader-row {
-        text-align: right;
-        padding: 10px 60px;
-        border-top: 1px solid #dee2e6;
-        border-bottom: 1px solid #dee2e6;
-        margin-right: 10px;
-    }
-
-    .dropdown {
-        position: relative;
-        display: inline-block;
-        background-color: #f8f9fa;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f8f9fa;
-        min-width: 260px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-    }
-
-    .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
-
-    .dropdown-content a:hover {
-        background-color: #e0e0e0;
-    }
-
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
-    .dropdown .dropbtn {
-        border-style: none;
-        border-color: inherit;
-        border-width: 0px;
-        background-color: #f8f9fa;
-        font-size: 1.1em;
-        color: black;
-    }
-
-    /* Footer styles */
-    .footer {
-        background-color: #f8f9fa;
-        padding: 10px 60px;
-        text-align: right;
-        border-top: 1px solid #dee2e6;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .footer p {
-        margin: 0;
-        color: #6c757d;
-        font-size: 9px;
-    }
-</style>
+<link rel="stylesheet" href="https://storage.googleapis.com/clm_workshop_assets/pt_style.css">
 
 <div class="big-container">
     <!-- Main container to hold both contract display and contact details -->
@@ -498,7 +32,8 @@
             <div class="dropdown-content">
                 <a href="#" id="generateTermSummary">Generate Prevailing Term Summary</a>
                 <a href="#" id="generateAmendment">Generate Amendment</a>
-                <!-- <a href="#" id="generateClauses">Refresh Clause Library</a> -->
+                <a href="#" onclick="document.getElementById('generateButton').click();">Refresh Clause Library</a>
+                <a href="#" onclick="document.getElementById('generateButton').click();">Sync Data to Ariba</a>
             </div>
         </div>
     </div>
@@ -571,51 +106,19 @@
 </script>
 
 <script type="text/javascript">
-
-    var header = document.getElementById("globalHeader");
-    if (header != null) {
-        var dataModel = header.dataset;
-        if (dataModel != null) {
-            var model = dataModel.model;
-            if (model != null) {
-                var accountId = JSON.parse(model).accountGuid;
-                if (accountId != null) {
-                    var docuSignaId = accountId;
-                }
-            }
-        }
-    }
-
+    // Replace with your DocuSign Account API ID
+    // Find it under eSign->Settings->Apps and Keys
+    var docuSignaId = "9bb5a5f6-9bd2-4956-bacc-0bdc19387c91";
     var searchResults = null;
+
     var xmlContent = '<Attributes>';
 
-    // This variable will keep track of the toggle state
-    var showInactiveContracts = "False";
-
-    // Declare the relatedDocuments and contractNumber globally
+    // Declare the attributesArray and contractNumber globally
     var relatedDocuments = [];  // Assume you populate this with your data
     var contractNumber = '';   // Your contract number
 
-    // Define the workflow names
-    var workflowNamePrevailingTermSummary = 'Prevailing Term Summary';
-    var workflowNameGenerateAmendment = 'Prevailing Term Amendment';
-    var workflowNameGenerateClauses = 'Store Clause Data';
-
-    // Add event listener for generating term summary
-    document.getElementById('generateTermSummary').addEventListener('click', function (event) {
-        callWorkflowApi(event, workflowNamePrevailingTermSummary);
-    });
-
-    // Add event listener for generating amendment
-    document.getElementById('generateAmendment').addEventListener('click', function (event) {
-        callWorkflowApi(event, workflowNameGenerateAmendment);
-    });
-
-    // Add event listener for generating clauses
-        document.getElementById('generateClauses').addEventListener('click', function (event) {
-        callWorkflowApi(event, workflowNameGenerateClauses);
-    });
-
+    // This variable will keep track of the toggle state
+    var showInactiveContracts = "False";
 
     $("[ScmFormControl]").bind(Atlas.Forms.SCM_FORM_AFTER_DATA_LOAD, function (e) {
 
@@ -775,56 +278,59 @@
             });
     }
 
-
-    /**
-     * Function to display clause content.
-     * 
-     * @param {Array} clauseContents - The array of clause contents to be displayed.
-     * @returns {string} - The generated HTML table containing the clause content.
-     */
     function displayClauseContent(clauseContents) {
-        // Sort by CommonName (ascending) and then by EffectiveDate (descending)
-        clauseContents.sort((a, b) => {
-            const commonNameA = a.Name.split('-')[0].trim();
-            const commonNameB = b.Name.split('-')[0].trim();
-            const originA = a.Name.split('-')[1]?.trim() || '';
-            const originB = b.Name.split('-')[1]?.trim() || '';
+    // Sort by Term (alphabetically) and Date (newest to oldest within each Term)
+    clauseContents.sort((a, b) => {
+        const termA = a.Name.split(' - ')[0];
+        const termB = b.Name.split(' - ')[0];
+
+        // If Terms are the same, sort by EffectiveDate (newest first)
+        if (termA === termB) {
             const dateA = a.EffectiveDate ? new Date(a.EffectiveDate.slice(0, 4), a.EffectiveDate.slice(4, 6) - 1, a.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
             const dateB = b.EffectiveDate ? new Date(b.EffectiveDate.slice(0, 4), b.EffectiveDate.slice(4, 6) - 1, b.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
+            return dateB - dateA; // Newest to oldest
+        }
 
-            if (commonNameA < commonNameB) return -1;
-            if (commonNameA > commonNameB) return 1;
-            if (dateA > dateB) return -1;
-            if (dateA < dateB) return 1;
-            return 0;
-        });
+        // Otherwise, sort Terms alphabetically
+        return termA.localeCompare(termB);
+    });
 
-        var tableHtml = '<h2 class="table-header">Clause Content</h2>';
-        tableHtml += '<table>';
-        tableHtml += '<tr><th>Name</th><th>Origin</th><th>Content</th><th>Date</th></tr>';
+    // Build the table HTML
+    let tableHtml = `
+        <h2 class="table-header">Clause Content</h2>
+        <table class="clause-term-table">
+            <tr><th>Term</th><th>Source</th><th>Content</th><th>Date</th></tr>
+    `;
 
-        clauseContents.forEach((clause, index) => {
-            const commonName = clause.Name.split('-')[0].trim();
-            const origin = clause.Name.split('-').slice(1).join('-').trim();
+    let lastTerm = ''; // Keep track of the last term to group rows
+    clauseContents.forEach((clause) => {
+        const [term, source] = clause.Name.split(' - '); // Split Name into Term and Source
+        const date = formatDate(clause.EffectiveDate) || 'N/A';
 
-            tableHtml += '<tr';
-            if (index === 0) {
-                tableHtml += ` style="border-bottom: 3px double black;"`;
-            }
-            tableHtml += '>';
-            if (index === 0 || commonName !== clauseContents[index - 1].Name.split('-')[0].trim()) {
-                tableHtml += `<td rowspan="${getRowCount(clauseContents, index)}">${commonName}</td>`;
-            }
-            tableHtml += `<td style="text-align: left;">${origin}</td>`;
-            tableHtml += `<td style="text-align: left;">${clause.Content}</td>`;
-            tableHtml += `<td>${formatDate(clause.EffectiveDate)}</td>`;
-            tableHtml += '</tr>';
-        });
+        // Add `new-term` class to the first row of a new group
+        const isNewTerm = term !== lastTerm;
+        if (isNewTerm) {
+            const termRowSpan = clauseContents.filter(c => c.Name.startsWith(term)).length; // Count rows for the term
+            tableHtml += `<tr class="new-term">`;
+            tableHtml += `<td rowspan="${termRowSpan}">${term}</td>`;
+            lastTerm = term; // Update lastTerm
+        } else {
+            tableHtml += '<tr>';
+        }
 
-        tableHtml += '</table>';
-        document.getElementById('clauseContentContainer').innerHTML = tableHtml;
-        return tableHtml;
-    }
+        tableHtml += `
+            <td>${source || ''}</td>
+            <td>${clause.Content || ''}</td>
+            <td>${date}</td>
+        `;
+        tableHtml += '</tr>';
+    });
+
+    tableHtml += '</table>';
+    document.getElementById('clauseContentContainer').innerHTML = tableHtml;
+
+    return tableHtml;
+}
 
     /**
      * Calculates the number of rows needed for a common name in the clauseContents array.
@@ -1370,12 +876,6 @@
 
     }
 
-    /**
-     * Parses the attributes of a document.
-     * 
-     * @param {Object} attributes - The attributes object to be parsed.
-     * @returns {Object} - The parsed attributes.
-     */
     function parseAttributes(attributes) {
         var parsedAttributes = {};
         for (var key in attributes) {
@@ -1387,23 +887,11 @@
         return parsedAttributes;
     }
 
-    /**
-     * Formats a numeric value as USD currency.
-     * 
-     * @param {number|string} value - The value to be formatted.
-     * @returns {string} - The formatted currency string.
-     */
     function formatCurrency(value) {
         if (isNaN(value)) return '';
         return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
     }
 
-    /**
-     * Formats a date string in the format YYYYMMDD to MM/DD/YYYY.
-     * 
-     * @param {string} dateString - The date string to be formatted.
-     * @returns {string} - The formatted date string.
-     */
     function formatDate(dateString) {
         if (!dateString) return '';
         // Extract year, month, and day from the dateString
@@ -1414,5 +902,19 @@
         // Format date as MM/DD/YYYY
         return `${month}/${day}/${year}`;
     }
+
+    // Define the workflow names
+    var workflowNamePrevailingTermSummary = 'Prevailing Term Summary';
+    var workflowNameGenerateAmendment = 'Prevailing Term Amendment';
+
+    // Add event listener for generating term summary
+    document.getElementById('generateTermSummary').addEventListener('click', function (event) {
+        callWorkflowApi(event, workflowNamePrevailingTermSummary);
+    });
+
+    // Add event listener for generating amendment
+    document.getElementById('generateAmendment').addEventListener('click', function (event) {
+        callWorkflowApi(event, workflowNameGenerateAmendment);
+    });
 
 </script>

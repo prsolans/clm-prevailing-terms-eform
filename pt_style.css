@@ -283,6 +283,35 @@
         border: 3px solid rgb(224, 212, 255);
     }
 
+    #clauseContentContainer table.clause-term-table th,
+    #clauseContentContainer table.clause-term-table td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ddd;
+    }
+    
+    #clauseContentContainer table.clause-term-table tr.new-term td {
+        border-top: 3px solid purple;
+    }
+    
+    
+        /* General table styling for the Clause Term table */
+        table.clause-term-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 16px;
+        }
+    
+        table.clause-term-table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+    
+        table.clause-term-table td,
+        table.clause-term-table th {
+            border: 1px solid #ddd;
+        }
+    
     /* Basic styling for the contract display */
     .contract-container {
         font-family: Arial, sans-serif;
