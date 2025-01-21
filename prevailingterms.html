@@ -317,13 +317,14 @@ var header = document.getElementById("globalHeader");
 
     let lastTerm = ''; // Keep track of the last term to group rows
     clauseContents.forEach((clause) => {
-        const [term, source] = clause.Name.split(' - '); // Split Name into Term and Source
+        const [rawTerm, source] = clause.Name.split(' - '); // Split Name into rawTerm and Source
+        const term = convertCamelCaseToRegularCase(rawTerm); // Convert rawTerm to Regular Case
         const date = formatDate(clause.EffectiveDate) || 'N/A';
 
         // Add `new-term` class to the first row of a new group
         const isNewTerm = term !== lastTerm;
         if (isNewTerm) {
-            const termRowSpan = clauseContents.filter(c => c.Name.startsWith(term)).length; // Count rows for the term
+            const termRowSpan = clauseContents.filter(c => c.Name.startsWith(rawTerm)).length; // Count rows for the term
             tableHtml += `<tr class="new-term">`;
             tableHtml += `<td rowspan="${termRowSpan}">${term}</td>`;
             lastTerm = term; // Update lastTerm
@@ -344,6 +345,7 @@ var header = document.getElementById("globalHeader");
 
     return tableHtml;
 }
+
 
     /**
      * Calculates the number of rows needed for a common name in the clauseContents array.
@@ -432,60 +434,66 @@ var header = document.getElementById("globalHeader");
      * @param {Object} data - The data containing agreement details.
      * @returns {Array} - The sorted array of agreement details.
      */
-    function extractAndSortAgreementDetails(data) {
-        const result = [];
+     function extractAndSortAgreementDetails(data) {
+    const result = [];
 
-        // Iterate through each item in the Items array
-        data.Result.Items.forEach(item => {
-            const clmDetails = item.AttributeGroups["CLM Agreement Details"];
-            const contractRecordDetails = item.AttributeGroups["Contract Record"];
+    console.log('Data:', data);
 
-            console.log('Contract Record Details:', contractRecordDetails);
+    // Iterate through each item in the Items array
+    data.Result.Items.forEach(item => {
+        const clmDetails = item.AttributeGroups["CLM Agreement Details"];
+        const contractRecordDetails = item.AttributeGroups["Contract Record"];
+        const eMoneyContractDetails = item.AttributeGroups["eMoney Contract Details"];
 
-            // Check if CLM Agreement Details exists to avoid errors
-            if (clmDetails) {
-                // Extract specific details from CLM Agreement Details
-                const details = {
-                    DocumentID: item["Uid"], // Add DocumentID
-                    Name: clmDetails.Name?.Value || 'N/A',
-                    PartyName: clmDetails["Party Name"]?.Value || 'N/A',
-                    PartyID: clmDetails["Party ID"]?.Value || 'N/A',
-                    Type: clmDetails.Type?.Value || 'N/A',
-                    EffectiveDate: clmDetails["Effective Date"]?.Value || 'N/A',
-                    ExpirationDate: clmDetails["Expiration Date"]?.Value || 'N/A',
-                    Value: clmDetails.Value?.Value || 'N/A',
-                    Requestor: clmDetails.Requestor?.Value || 'N/A',
-                    PaymentTerms: clmDetails["Payment Terms"]?.Value || 'N/A',
-                    PaymentDuration: clmDetails["Payment Duration"]?.Value || 'N/A',
-                    PaymentDurationUnit: clmDetails["Payment Duration Unit"]?.Value || 'N/A',
-                    PaymentLateFees: clmDetails["Payment Late Fees"]?.Value || 'N/A',
-                    LimitationLiability: clmDetails["Limitation of Liability"]?.Value || 'N/A',
-                    Assignable: clmDetails.Assignable?.Value || 'N/A',
-                    Indemnity: clmDetails.Indemnity?.Value || 'N/A',
-                    TerminationCause: clmDetails["Termination Cause"]?.Value || 'N/A',
-                    TerminationConvenience: clmDetails["Termination Convenience"]?.Value || 'N/A',
-                    ContractIsParent: contractRecordDetails["is Parent?"]?.Value || 'N/A',
-                    ContractIsActive: contractRecordDetails["is Active?"]?.Value || 'N/A',
-                };
+        console.log('eMoney Contract Details:', eMoneyContractDetails);
 
-                // Add extracted details to the result array
-                result.push(details);
-            }
-        });
+        // Check if CLM Agreement Details exists to avoid errors
+        if (clmDetails) {
+            // Extract specific details from CLM Agreement Details
+            const details = {
+                DocumentID: item["Uid"], // Add DocumentID
+                Name: clmDetails.Name?.Value || 'N/A',
+                PartyName: clmDetails["Party Name"]?.Value || 'N/A',
+                PartyID: clmDetails["Party ID"]?.Value || 'N/A',
+                Type: clmDetails.Type?.Value || 'N/A',
+                EffectiveDate: clmDetails["Effective Date"]?.Value || 'N/A',
+                ExpirationDate: clmDetails["Expiration Date"]?.Value || 'N/A',
+                Value: clmDetails.Value?.Value || 'N/A',
+                Requestor: clmDetails.Requestor?.Value || 'N/A',
+                PaymentTerms: clmDetails["Payment Terms"]?.Value || 'N/A',
+                PaymentDuration: clmDetails["Payment Duration"]?.Value || 'N/A',
+                PaymentDurationUnit: clmDetails["Payment Duration Unit"]?.Value || 'N/A',
+                PaymentLateFees: clmDetails["Payment Late Fees"]?.Value || 'N/A',
+                LimitationLiability: clmDetails["Limitation of Liability"]?.Value || 'N/A',
+                Assignable: clmDetails.Assignable?.Value || 'N/A',
+                Indemnity: clmDetails.Indemnity?.Value || 'N/A',
+                TerminationCause: clmDetails["Termination Cause"]?.Value || 'N/A',
+                TerminationConvenience: clmDetails["Termination Convenience"]?.Value || 'N/A',
+                ContractIsParent: contractRecordDetails?.["is Parent?"]?.Value || 'N/A',
+                ContractIsActive: contractRecordDetails?.["is Active?"]?.Value || 'N/A',
+                ContractualTrainingHours: eMoneyContractDetails?.["Contractual Training Hours"]?.Value || 'N/A',
+                AdvanceNoticeRequirements: eMoneyContractDetails?.["Price Increase - Advance Notice Requirements"]?.Value || 'N/A',
+                FormOfNotice: eMoneyContractDetails?.["Price Increase - Form of Notice"]?.Value || 'N/A',
+            };
 
-        // Sort by EffectiveDate (oldest to newest) - original format is 20230224000000
-        result.sort((a, b) => {
-            const dateA = a.EffectiveDate ? new Date(a.EffectiveDate.slice(0, 4), a.EffectiveDate.slice(4, 6) - 1, a.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
-            const dateB = b.EffectiveDate ? new Date(b.EffectiveDate.slice(0, 4), b.EffectiveDate.slice(4, 6) - 1, b.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
+            // Add extracted details to the result array
+            result.push(details);
+        }
+    });
 
-            if (isNaN(dateA)) return 1; // Treat invalid dateA as greater
-            if (isNaN(dateB)) return -1; // Treat invalid dateB as greater
+    // Sort by EffectiveDate (oldest to newest) - original format is 20230224000000
+    result.sort((a, b) => {
+        const dateA = a.EffectiveDate ? new Date(a.EffectiveDate.slice(0, 4), a.EffectiveDate.slice(4, 6) - 1, a.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
+        const dateB = b.EffectiveDate ? new Date(b.EffectiveDate.slice(0, 4), b.EffectiveDate.slice(4, 6) - 1, b.EffectiveDate.slice(6, 8)) : new Date('9999-12-31');
 
-            return dateA - dateB;
-        });
+        if (isNaN(dateA)) return 1; // Treat invalid dateA as greater
+        if (isNaN(dateB)) return -1; // Treat invalid dateB as greater
 
-        return result;
-    }
+        return dateA - dateB;
+    });
+
+    return result;
+}
 
     /**
      * Retrieves all document IDs associated with a given contract number.
@@ -578,9 +586,12 @@ var header = document.getElementById("globalHeader");
                             "ContractNumber": attributes['Contract Record']?.['Contract Number']?.Value || '',
                             "ContractIsActive": attributes['Contract Record']?.['Is Active?']?.Value || '',
                             "ContractIsParent": attributes['Contract Record']?.['Is Parent?']?.Value || '',
+                            "ContractualTrainingHours": attributes['eMoney Contract Details']?.['Contractual Training Hours']?.Value || '',
+                            "AdvanceNoticeRequirements": attributes['eMoney Contract Details']?.['Price Increase - Advance Notice Requirements']?.Value || '',
+                            "FormOfNotice": attributes['eMoney Contract Details']?.['Price Increase - Form of Notice']?.Value || '',
                         };
                     }
-
+                    console.log('Document Attributes:', documentAttributes);
                     resolve(documentAttributes);
                 } catch (error) {
                     console.error('Error processing attributes data:', error);
@@ -649,6 +660,9 @@ var header = document.getElementById("globalHeader");
             'TerminationConvenience': ['Legal'],
             'ContractIsParent': ['General'],
             'ContractIsActive': ['General'],
+            'ContractualTrainingHours': ['General'],
+            'AdvanceNoticeRequirements': ['General'],
+            'FormOfNotice': ['General'],
             // Add other mappings as needed
         };
 
@@ -747,7 +761,7 @@ var header = document.getElementById("globalHeader");
             var prevailingTermHtml = `<strong>${prevailingTerm}</strong>`;
 
             // Generate the row with the data-category attribute
-            tableHtml += `<tr ${dataCategoryAttr}><td>${key}</td><td>${parentValueHtml}</td>${childValuesHtml.map(value => `<td>${value}</td>`).join('')}<td>${prevailingTermHtml}</td></tr>`;
+            tableHtml += `<tr ${dataCategoryAttr}><td>${convertCamelCaseToRegularCase(key)}</td><td>${parentValueHtml}</td>${childValuesHtml.map(value => `<td>${value}</td>`).join('')}<td>${prevailingTermHtml}</td></tr>`;
 
             // Add to XML content if there's content
             if (prevailingTerm) {
@@ -915,6 +929,18 @@ var header = document.getElementById("globalHeader");
         // Format date as MM/DD/YYYY
         return `${month}/${day}/${year}`;
     }
+
+    /**
+     * Converts a CamelCase string to Regular Case (e.g., PaymentLateFees -> Payment Late Fees).
+     * @param {string} str - The CamelCase string.
+     * @returns {string} - The converted Regular Case string.
+     */
+    function convertCamelCaseToRegularCase(str) {
+        return str
+            .replace(/([a-z])([A-Z])/g, '$1 $2') // Add a space before each uppercase letter following a lowercase letter
+            .replace(/^./, char => char.toUpperCase()); // Capitalize the first letter
+    }
+
 
     // Define the workflow names
     var workflowNamePrevailingTermSummary = 'Prevailing Term Summary';
