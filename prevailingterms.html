@@ -317,13 +317,14 @@ var header = document.getElementById("globalHeader");
 
     let lastTerm = ''; // Keep track of the last term to group rows
     clauseContents.forEach((clause) => {
-        const [term, source] = clause.Name.split(' - '); // Split Name into Term and Source
+        const [rawTerm, source] = clause.Name.split(' - '); // Split Name into rawTerm and Source
+        const term = convertCamelCaseToRegularCase(rawTerm); // Convert rawTerm to Regular Case
         const date = formatDate(clause.EffectiveDate) || 'N/A';
 
         // Add `new-term` class to the first row of a new group
         const isNewTerm = term !== lastTerm;
         if (isNewTerm) {
-            const termRowSpan = clauseContents.filter(c => c.Name.startsWith(term)).length; // Count rows for the term
+            const termRowSpan = clauseContents.filter(c => c.Name.startsWith(rawTerm)).length; // Count rows for the term
             tableHtml += `<tr class="new-term">`;
             tableHtml += `<td rowspan="${termRowSpan}">${term}</td>`;
             lastTerm = term; // Update lastTerm
@@ -747,7 +748,7 @@ var header = document.getElementById("globalHeader");
             var prevailingTermHtml = `<strong>${prevailingTerm}</strong>`;
 
             // Generate the row with the data-category attribute
-            tableHtml += `<tr ${dataCategoryAttr}><td>${key}</td><td>${parentValueHtml}</td>${childValuesHtml.map(value => `<td>${value}</td>`).join('')}<td>${prevailingTermHtml}</td></tr>`;
+            tableHtml += `<tr ${dataCategoryAttr}><td>${convertCamelCaseToRegularCase(key)}</td><td>${parentValueHtml}</td>${childValuesHtml.map(value => `<td>${value}</td>`).join('')}<td>${prevailingTermHtml}</td></tr>`;
 
             // Add to XML content if there's content
             if (prevailingTerm) {
@@ -914,6 +915,17 @@ var header = document.getElementById("globalHeader");
 
         // Format date as MM/DD/YYYY
         return `${month}/${day}/${year}`;
+    }
+
+        /**
+     * Converts a CamelCase string to Regular Case (e.g., PaymentLateFees -> Payment Late Fees).
+     * @param {string} str - The CamelCase string.
+     * @returns {string} - The converted Regular Case string.
+     */
+     function convertCamelCaseToRegularCase(str) {
+        return str
+            .replace(/([a-z])([A-Z])/g, '$1 $2') // Add a space before each uppercase letter following a lowercase letter
+            .replace(/^./, char => char.toUpperCase()); // Capitalize the first letter
     }
 
     // Define the workflow names
